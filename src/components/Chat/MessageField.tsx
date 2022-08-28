@@ -10,7 +10,7 @@ import closeMedia from 'assets/images/close-media.svg';
 import addPhotos from 'assets/images/add-photo.svg';
 import addPhotosDark from 'assets/images/add-photo-black.svg';
 // import addGif from 'assets/images/add-gif.svg';
-import placeholder from 'assets/images/ic_avatar_placeholder.svg';
+import placeholder from 'assets/images/ic-avatar-placeholder.svg';
 import send from 'assets/images/msg-send.svg';
 import MessagesModel from 'firestore/messagesModel';
 import { Menu, MenuItem, Button } from '@mui/material';

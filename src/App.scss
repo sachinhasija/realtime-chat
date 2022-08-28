@@ -1,5 +1,45 @@
 @import './assets/styles/mixins';
 
+#root {
+    height: 100%;
+}
+
+button, input, select, textarea {
+    background-color: transparent;
+    color: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+button, select {
+    cursor: pointer;
+    border: none;
+}
+
+[type=reset], [type=submit], button, html [type=button] {
+    -webkit-appearance: button;
+}
+
+[tabindex], a, area, button, input, label, select, summary, textarea {
+    touch-action: manipulation;
+}
+
+button, select {
+    text-transform: none;
+}
+
+button, input {
+    overflow: visible;
+}
+
+button, input, optgroup, select, textarea {
+    margin: 0;
+}
+
+figure {
+    margin: 0;
+}
+
 header {
     position: fixed;
     width: 100%;
@@ -37,12 +77,61 @@ header {
     }
 }
 
+ul {
+    padding: 0;
+}
+
+ol, ul li {
+    list-style-type: none;
+}
+
+input, textarea {
+    outline: none;
+    padding: 15px 18px;
+    width: 100%;
+    color: #8a8a8a;
+    color: var(--greyColorTwo);
+    font-size: 14px;
+    font-family: "PoppinsRegular";
+    letter-spacing: .14px;
+    background-color: transparent;
+    letter-spacing: .5px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    transition: all .3s ease-in-out;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -ms-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+}
+
+::before, ::after {
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+    text-decoration: inherit;
+    vertical-align: inherit;
+    outline: none !important;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding-right: 5px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1;
+}
+
 .custom_container {
     max-width: 1170px;
     margin: 0 auto;
     position: relative;
     height: 100%;
-    padding: 73px 0 0;
     @media screen and (max-width: $breakpoint_1366) {
         max-width: 95%;
     }
@@ -103,4 +192,287 @@ header {
     h2 {
         margin-top: 100px;
     }
+}
+
+.sidenav {
+    width: 23%;
+    height: 100%;
+    @include position(sticky, 110px, auto, auto, auto);
+    max-width: 270px;
+
+    @media screen and (max-width: $breakpoint_1180) {
+        width: 22%;
+    }
+
+    @media screen and (max-width: $breakpoint_950) {
+        width: 230px;
+    }
+
+    @media screen and (max-width: $breakpoint_1024) {
+        top: 100px;
+    }
+
+    @media screen and (max-width: $breakpoint_890) {
+        top: 90px;
+    }
+
+    @media screen and (max-width: $breakpoint_767) {
+        display: none;
+    }
+
+    .inner {
+        background-color: var(--darkGreyColor);
+        padding: 24px 18px;
+        overflow-y: auto;
+
+        @media screen and (max-width: $breakpoint_1180) {
+            padding: 20px 15px;
+        }
+    }
+
+    .list_search {
+        margin-bottom: 12px;
+        position: relative;
+    }
+
+    &.active {
+        @media screen and (max-width: $breakpoint_650) {
+            left: 0;
+        }
+    }
+}
+
+.f_center, .f_spacebw {
+    display: flex;
+    align-items: center;
+}
+
+.f_spacebw {
+    justify-content: space-between;
+}
+
+.relative, .text_field {
+    position: relative;
+}
+
+.xs_title {
+    font: 16px/1.33 "PoppinsSemiBold";
+    color: #fff;
+    color: var(--whiteColor);
+    letter-spacing: .1px;
+    margin: 0;
+    display: block;
+    position: relative;
+}
+
+.back_btn {
+    position: relative;
+    padding: 0 0 0 30px;
+    color: #fff;
+    color: var(--whiteColor);
+    letter-spacing: .4px;
+    font: normal normal normal 16px/1 "PoppinsRegular";
+    cursor: pointer;
+    display: inline-block;
+}
+
+.back_btn:before {
+    content: "";
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    top: 50%;
+    right: auto;
+    bottom: auto;
+    left: -10px;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    background: url('./assets/images/ic-back.svg') 50% no-repeat;
+    background-size: contain;
+}
+
+.list_container {
+    width: 77%;
+    padding-left: 30px;
+    min-height: 100%;
+    flex: 1 1;
+}
+
+.no_data {
+    position: relative;
+    flex-flow: column;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    max-height: calc(100vh - 200px);
+}
+
+.empty_box {
+    @include flexCenter;
+    flex-flow: column;
+    padding: 15px 30px;
+    position: relative;
+    min-width: 340px;
+    min-height: 160px;
+
+    .empty_img {
+        width: 45px;
+        height: 45px;
+
+        @media screen and (max-width: $breakpoint_1024) {
+            width: 35px;
+            height: 35px;
+        }
+
+        @media screen and (max-width: $breakpoint_480) {
+            width: 30px;
+            height: 30px;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        &.post_img {
+            width: 70px;
+            height: 48px;
+        }
+    }
+
+    .empty_txt {
+        color: var(--emptyStateColor);
+        max-width: 250px;
+        margin: 22px auto 0;
+        text-transform: uppercase;
+        text-align: center;
+        letter-spacing: 1.6px;
+        line-height: 22px;
+        font-family: $fontFamilyMedium;
+
+        @media screen and (max-width: $breakpoint_1366) {
+            font-size: 14px;
+        }
+
+        @media screen and (max-width: $breakpoint_480) {
+            font-size: 13px;
+            margin-top: 20px;
+        }
+
+        @media screen and (max-width: $breakpoint_320) {
+            font-size: 12px;
+            margin-top: 15px;
+        }
+    }
+
+    &.empty_notification_box {
+        min-width: auto;
+        min-height: 120px;
+
+        .empty_img {
+            width: 25px;
+            height: 25px;
+
+            @media screen and (max-width: $breakpoint_320) {
+                width: 15px;
+                height: 15px;
+            }
+        }
+
+        .empty_txt {
+            font-size: 12px;
+            margin-top: 15px;
+        }
+    }
+
+    &.empty_contact_box {
+        min-width: 100%;
+        min-height: 120px;
+
+        .empty_img {
+            width: 25px;
+            height: 25px;
+        }
+
+        .empty_txt {
+            margin-top: 8px;
+        }
+    }
+
+    &.empty_gift_box {
+        .empty_txt {
+            font-size: 12px;
+            line-height: normal;
+            margin-top: 8px;
+        }
+    }
+
+    &.empty_post_box {
+        .empty_img {
+            width: auto;
+        }
+    }
+
+    &::before,
+    &::after {
+        width: 20px;
+        min-height: 100%;
+        background-image: url('./assets/images/empty_box_bg.svg');
+        background-size: contain;
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+    }
+
+    &::before {
+        left: 0;
+    }
+
+    &::after {
+        transform: rotateY(180deg);
+        right: 0;
+    }
+}
+
+.show_label {
+    font: 14px/18px $fontFamily;
+    margin: 0 0 8px 0;
+    color: var(--lightGreyColor);
+    display: block;
+    line-height: 1.5;
+
+    @media screen and (max-width: $breakpoint_950) {
+        font-size: 13px;
+    }
+
+    .show_label_text {
+        font-size: 12px;
+    }
+
+    &.white {
+        color: var(--whiteColor);
+    }
+
+    &.onboard_label {
+        margin-bottom: 35px;
+
+        @media screen and (max-width: $breakpoint_768) {
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        @media screen and (max-width: $breakpoint_480) {
+            font-size: 14px;
+        }
+    }
+}
+
+.empty_box .empty_img {
+    width: 45px;
+    height: 45px;
 }

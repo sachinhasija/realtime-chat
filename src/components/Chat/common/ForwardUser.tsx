@@ -3,7 +3,7 @@ import {
   Checkbox,
 } from '@mui/material';
 
-import placeholder from 'assets/images/ic_avatar_placeholder.svg';
+import placeholder from 'assets/images/ic-avatar-placeholder.svg';
 import scss from './ForwardUser.module.scss';
 
 interface Props {

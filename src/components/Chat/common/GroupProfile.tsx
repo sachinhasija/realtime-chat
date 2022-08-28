@@ -17,7 +17,7 @@ import add from 'assets/images/new-msg.png';
 import ModalComponent from 'components/Modal/index';
 import MessagesModel from 'firestore/messagesModel';
 import Image from 'components/Image';
-import placeholderImage from 'assets/images/ic_avatar_placeholder.svg';
+import placeholderImage from 'assets/images/ic-avatar-placeholder.svg';
 import editIcon from 'assets/images/edit_icon.svg';
 import moment from 'moment';
 import GroupModel from 'firestore/groupModel';

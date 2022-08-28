@@ -15,7 +15,7 @@
     z-index: 999;
 
     & .scrollLayer {
-        @include avatusModalRootStyles;
+        @include modalRootStyles;
         min-height: 100vh;
         overflow: auto;
         -webkit-overflow-scrolling: touch;
@@ -24,7 +24,7 @@
     }
 
     & .container {
-        @include avatusModalBaseStyles;
+        @include modalBaseStyles;
         min-height: 100vh;
         height: 100%;
         flex-basis: $breakpoint_576;
@@ -108,7 +108,7 @@
 }
 
 .close {
-    @include avatusModalCloseStyles;
+    @include modalCloseStyles;
     z-index: 9999;
 }
 

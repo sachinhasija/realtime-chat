@@ -9,8 +9,8 @@
             .cls-2{opacity:.5;fill:url(#linear-gradient)}.cls-4{fill:#585858}
         </style>
     </defs>
-    <g id="ic_avatar_placeholder" transform="translate(-149 -505)">
-        <g id="ic_avatar_placeholder-2" data-name="ic_avatar_placeholder">
+    <g id="ic-avatar-placeholder" transform="translate(-149 -505)">
+        <g id="ic-avatar-placeholder-2" data-name="ic-avatar-placeholder">
             <circle id="Ellipse_7" data-name="Ellipse 7" cx="50" cy="50" r="50" transform="translate(149 505)" style="opacity:.5"/>
             <path id="Exclusion_5" data-name="Exclusion 5" class="cls-2" d="M50 100A50.013 50.013 0 0 1 30.538 3.929 50.013 50.013 0 0 1 69.462 96.07 49.686 49.686 0 0 1 50 100zm.293-98.352H50A48.406 48.406 0 0 0 1.648 50c0 22.359 21.121 48.35 48.352 48.35A48.405 48.405 0 0 0 98.35 50c0-12.5-5.469-24.624-15.4-34.149C73.537 6.823 61.634 1.646 50.293 1.647z" transform="translate(149 505)"/>
             <g id="Ellipse_542" data-name="Ellipse 542" transform="translate(152.846 508.846)" style="fill:#141414;stroke:#313134">

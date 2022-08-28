@@ -1,12 +1,12 @@
 import React from 'react';
 
-import placeholder from 'assets/images/ic_avatar_placeholder.svg';
+import placeholder from 'assets/images/ic-avatar-placeholder.svg';
 import scss from './ForwardUser.module.scss';
 
 interface Props {
-    name: string,
-    id: string,
-    handleRemoveUser: (userId: string) => null
+  name: string,
+  id: string,
+  handleRemoveUser: (userId: string) => null
 }
 
 const ForwardSelectedUser = ({ name, id, handleRemoveUser }: Props) => (

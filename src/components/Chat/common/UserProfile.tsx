@@ -8,7 +8,7 @@ import videoPlay from 'assets/images/chat-video.png';
 import classNames from 'classnames';
 import channelImage from 'assets/images/image-placeholder.svg';
 import ModalComponent from 'components/Modal';
-import placeholderImage from 'assets/images/ic_avatar_placeholder.svg';
+import placeholderImage from 'assets/images/ic-avatar-placeholder.svg';
 import MessagesModel from 'firestore/messagesModel';
 import Image from 'components/Image';
 import BlockModel from 'firestore/blockModel';

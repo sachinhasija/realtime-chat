@@ -10,7 +10,7 @@ import { debounce } from 'lodash';
 import Carousel from 'components/Carousel/Carousel';
 import InfiniteScroll from 'react-infinite-scroll-component';
 // import addImg from 'assets/images/add.svg';
-// import avatar from 'assets/images/ic_avatar_placeholder.svg';
+// import avatar from 'assets/images/ic-avatar-placeholder.svg';
 // import placeholder from 'assets/images/image-placeholder.svg';
 import classNames from 'classnames';
 import NewGroupChatForm from 'forms/NewGroupChatForm';

@@ -8,7 +8,7 @@ import scss from '../Chat.module.scss';
 const NoMessages = ({ dataPresent }: { dataPresent: boolean }) => (
   <div className={scss.no_message_wrap}>
     {!dataPresent ? (
-      <div className={`no_data ${scss.empty_chat}`}>
+      <div className={`no_data`}>
         <div className="empty_box">
           <figure className="empty_img">
             <img src={noMsgImg} role="presentation" alt="" />

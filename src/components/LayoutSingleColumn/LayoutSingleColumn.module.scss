@@ -1,0 +1,32 @@
+@import 'assets/styles/_mixins.scss';
+
+.root {
+    @include flexbox;
+    flex-direction: column;
+    height: 100%;
+
+    @media only screen and (max-width: $breakpoint_1024){
+        flex-direction: row;
+    }
+}
+
+.layoutWrapperMain {
+    flex-grow: 1;
+    flex-shrink: 0;
+    background-color: var(--blackColorTwo);
+    padding: 110px 0 0;
+    color: var(--whiteColor);
+    width: 100%;
+
+    @media screen and (max-width: $breakpoint_1024) {
+        padding: 100px 0 0;
+    }
+
+    @media screen and (max-width: $breakpoint_890) {
+        padding: 90px 0 0;
+    }    
+
+    @media screen and (max-width: $breakpoint_576) {
+        padding: 85px 0 0;
+    }    
+}

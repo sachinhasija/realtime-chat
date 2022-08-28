@@ -6,7 +6,7 @@ import { Menu, MenuItem, Button } from '@mui/material';
 import CircularProgressLoader from 'components/Loaders/CircularProgress';
 import MessagesModel from 'firestore/messagesModel';
 import playVideo from 'assets/images/icon-feather-play.svg';
-import placeholderImage from 'assets/images/ic_avatar_placeholder.svg';
+import placeholderImage from 'assets/images/ic-avatar-placeholder.svg';
 import linkPlaceholder from 'assets/images/link_placeholder.svg';
 import Image from 'components/Image';
 import { extractUrls } from 'utils/urlHelpers';

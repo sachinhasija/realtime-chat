@@ -36,13 +36,15 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <Header isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
-      <div
-        className="custom_container"
-      >
+    <div className="app">
+      <div className='content'>
+        <Header isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
         {isLoggedIn ? <Chat /> : (
-          <Login handleSignIn={handleSignIn} />
+          <div
+            className="custom_container"
+          >
+            <Login handleSignIn={handleSignIn} />
+          </div>
         )}
       </div>
     </div>

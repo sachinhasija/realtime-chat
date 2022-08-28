@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
-import scss from './searchbar.module.scss';
-import headerScss from '../Topbar/TopbarDesktop/TopbarDesktop.module.scss';
-import transactionScss from '../Shop/Shop.module.scss';
 import searchIcon from '../../assets/images/ic_search.svg';
+import scss from './searchbar.module.scss';
 
 interface Props {
   className?: string;
@@ -31,14 +29,13 @@ const SearchBar = (props: Props) => {
   }, [searched]);
 
   return (
-    // Class "c_detail" is visibile in channel details only
     <div
-      className={classNames('form_field', className, showSearch ? `input_search_focussed ${headerScss.search_focused}` : '')}
+      className={classNames('form_field', className, showSearch ? `input_search_focussed ${scss.search_focused}` : '')}
       // id="recent_search_suggestion"
       onFocus={onFocusContainer}
       ref={wrapperRef}
     >
-      <div className={`text_field ${scss.search_wrap} ${headerScss.header_search_wrap} ${transactionScss.search_wrap}`}>
+      <div className={`text_field ${scss.search_wrap} ${scss.header_search_wrap}`}>
         <input
           type="search"
           className={`search_input ${scss.search_input}`}
@@ -64,7 +61,7 @@ const SearchBar = (props: Props) => {
             }
           }}
         />
-        <span className={`${scss.icon} ${headerScss.search_icon}`}>
+        <span className={`${scss.icon} ${scss.search_icon}`}>
           <img src={searchIcon} alt="search" />
         </span>
       </div>

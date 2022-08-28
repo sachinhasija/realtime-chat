@@ -4,7 +4,7 @@ import {
 } from 'interfaces/firestore';
 import Image from 'components/Image';
 import chatMute from 'assets/images/chat-mute.svg';
-import placeholderImage from 'assets/images/ic_avatar_placeholder.svg';
+import placeholderImage from 'assets/images/ic-avatar-placeholder.svg';
 import deleteMsg from 'assets/images/deleted-message.svg';
 import { Menu, MenuItem, Button } from '@mui/material';
 import classNames from 'classnames';

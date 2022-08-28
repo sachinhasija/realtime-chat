@@ -3,7 +3,7 @@ import { NewChatData, User } from 'interfaces/firestore';
 import { formatTime } from 'utils/common.js';
 // import Image from 'components/Image';
 
-import placeholderImage from 'assets/images/ic_avatar_placeholder.svg';
+import placeholderImage from 'assets/images/ic-avatar-placeholder.svg';
 import moment from 'moment';
 import scss from './Chat.module.scss';
 
