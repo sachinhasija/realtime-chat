@@ -32,6 +32,7 @@ function App() {
 
   const handleLogout = () => {
     Cookies.remove('st-uid');
+    setIsLoggedIn(false);
   }
 
   return (
