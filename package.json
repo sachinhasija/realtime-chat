@@ -1,5 +1,6 @@
 {
   "name": "realtime-chat",
+  "homepage": "https://sachinhasija.github.io/realtime-chat/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -59,6 +60,7 @@
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.2",
-    "@types/lodash": "^4.14.184"
+    "@types/lodash": "^4.14.184",
+    "gh-pages": "^4.0.0"
   }
 }
