@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120">
+    <g data-name="Image placeholder">
+        <g data-name="Rectangle 1947" style="fill:#1d1d1f;stroke:#313134">
+            <path style="stroke:none" d="M0 0h120v120H0z"/>
+            <path style="fill:none" d="M.5.5h119v119H.5z"/>
+        </g>
+        <path data-name="Path 54765" d="M52.173 25h-24.81A2.37 2.37 0 0 0 25 27.363v21.856a2.37 2.37 0 0 0 2.363 2.363h24.81a2.37 2.37 0 0 0 2.363-2.363V27.363A2.37 2.37 0 0 0 52.173 25zm0 24.219h-24.81V27.363h24.81zm-2.954-2.954h-18.9l7.081-7.088 5.316 5.316 2.363-2.363zm-7.088-11.223A2.954 2.954 0 1 1 45.084 38a2.925 2.925 0 0 1-2.953-2.958z" transform="translate(20.189 21.518)" style="fill:#aaa"/>
+    </g>
+</svg>

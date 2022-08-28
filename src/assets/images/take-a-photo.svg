@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30">
+    <defs>
+        <style>
+            .cls-1{fill:#fff}
+        </style>
+    </defs>
+    <g id="Take_a_Photo" data-name="Take a Photo" transform="translate(11.828 12)">
+        <path id="Rectangle_1361" data-name="Rectangle 1361" class="cls-1" transform="rotate(45 16.071 -2.171)" d="M0 0h21.213v21.213H0z"/>
+        <g id="Group_5902" data-name="Group 5902" transform="translate(-3.201 -2.641)">
+            <g id="Path_58624" data-name="Path 58624" style="fill:transparent">
+                <path d="M11.978-30.517H.5v-6.986h3.286l.144-.255.98-1.742h2.659l.98 1.742.143.255h3.286v6.986z" style="stroke:none" transform="translate(0 40)"/>
+                <path d="m5.202-39-1.123 1.997H1v5.986h10.478v-5.986H8.4L7.277-39H5.202m-.585-1h3.244l1.123 1.997h3.494v7.986H0v-7.986h3.494L4.617-40z" style="fill:#000;stroke:none" transform="translate(0 40)"/>
+            </g>
+            <path id="Path_58622" data-name="Path 58622" class="cls-1" d="m3.556 0 3.557 3.556-3.557 3.557L0 3.556z" transform="translate(2.683 3.993)"/>
+            <path id="Path_58623" data-name="Path 58623" d="m2.246 0 2.246 2.246-2.246 2.246L0 2.246z" transform="translate(3.993 4.492)" style="stroke:#000;fill:transparent"/>
+        </g>
+    </g>
+</svg>

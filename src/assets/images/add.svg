@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="35.657" height="35.657">
+    <g data-name="Path 58621" style="fill:#fff">
+        <path d="m15 31.414-.707-.707-15-15-.707-.707.707-.707 15-15L15-1.414l.707.707 15 15 .707.707-.707.707-15 15-.707.707z" style="stroke:none" transform="translate(2.828 2.828)"/>
+        <path d="M15 0 0 15l15 15 15-15L15 0m0-2.828L32.828 15 15 32.828-2.828 15 15-2.828z" style="fill:#080808;stroke:none" transform="translate(2.828 2.828)"/>
+    </g>
+    <path d="M6 4.218 10.218 0 12 1.782 7.782 6 12 10.218 10.218 12 6 7.782 1.782 12 0 10.218 4.218 6 0 1.782 1.782 0z" transform="rotate(45 -2.707 27.02)" style="fill:#141414"/>
+</svg>

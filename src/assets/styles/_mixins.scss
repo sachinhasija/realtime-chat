@@ -1,0 +1,46 @@
+@import './variables';
+
+@mixin flexbox {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+@mixin inlineFlexCenter {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flexAlign() {
+    @include flexbox;
+    align-items: center;
+}
+
+@mixin falign($value) {
+    @include flexbox;
+    -webkit-box-align: $value;
+    align-items: $value;
+}
+
+@mixin fpos($a-item, $j-align) {
+    @include flexbox;
+    align-items: $a-item;
+    justify-content: $j-align;
+}
+
+@mixin flexCenter() {
+    @include flexbox;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin position($position, $top: null, $right: null, $bottom: null, $left: null) {
+    position: $position;
+    top: $top;
+    right: $right;
+    bottom: $bottom;
+    left: $left;
+}

@@ -1,5 +1,5 @@
 import {
-  doc, setDoc, getDoc, onSnapshot, DocumentData, updateDoc, query, collection, getDocs,
+  doc, setDoc, getDoc, onSnapshot, DocumentData, updateDoc, query, collection
 } from 'firebase/firestore';
 import {
   User, UpdateUser, UpdateUserDoc, TotalUnreadData,

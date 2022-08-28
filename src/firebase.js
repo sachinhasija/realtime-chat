@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getMessaging, getToken, onMessage } from 'firebase/messaging';
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 const {
   REACT_APP_FIREBASE_API_KEY, REACT_APP_FIREBASE_AUTH_DOMAIN, REACT_APP_FIREBASE_PROJECT_ID, REACT_APP_FIREBASE_STORAGE_BUCKET, REACT_APP_FIREBASE_MESSAGING_SENDERID, REACT_APP_FIREBASE_APPID, REACT_APP_FIREBASE_MEASUREMENTID, REACT_APP_FIREBASE_MESSAGING_KEY,
@@ -40,6 +41,34 @@ const onMessageListener = () => new Promise((resolve) => {
 
 const db = getFirestore();
 
+const provider = new GoogleAuthProvider();
+
+export const auth = getAuth();
+
+export const signInWithGoogle = (callback, callbackError = null) => {
+    signInWithPopup(auth, provider)
+    .then((result) => {
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      // The signed-in user info.
+      const user = result.user;
+      callback(token, user);
+      // ...
+    }).catch((error) => {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // The email of the user's account used.
+      const email = error.customData.email;
+      // The AuthCredential type that was used.
+      const credential = GoogleAuthProvider.credentialFromError(error);
+      // ...
+      if (callbackError) {
+        callbackError({errorCode, errorMessage, email, credential});
+      }
+    });
+}
 export {
   db, fetchToken, firebaseApp, onMessageListener,
 };

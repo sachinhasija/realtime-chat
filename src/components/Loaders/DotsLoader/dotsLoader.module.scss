@@ -1,0 +1,87 @@
+@import 'assets/styles/_mixins.scss';
+
+.dot_loader {
+    @include flexCenter;
+    padding: 7.5px 10px;
+
+    .dot {
+        position: relative;
+        left: -9999px;
+        width: 6px;
+        height: 6px;
+        box-shadow: 9999px 0 0 -5px $white;
+        animation: dotPulse 1.5s infinite linear;
+        animation-delay: 0.25s;
+        background-color: $white;
+        color: $white;
+
+        &::before,
+        &::after {
+            content: "";
+            display: inline-block;
+            position: absolute;
+            top: 0;
+            width: 6px;
+            height: 6px;
+            background-color: $white;
+            color: $white;
+        }
+
+        &::before {
+            box-shadow: 9984px 0 0 -5px $white;
+            animation: dotPulseBefore 1.5s infinite linear;
+            animation-delay: 0s;
+        }
+
+        &::after {
+            box-shadow: 10014px 0 0 -5px $white;
+            animation: dotPulseAfter 1.5s infinite linear;
+            animation-delay: 0.5s;
+        }
+    }
+}
+
+@keyframes dotPulseBefore {
+    0% {
+        box-shadow: 9984px 0 0 -5px $white;
+    }
+
+    30% {
+        box-shadow: 9984px 0 0 2px $white;
+    }
+
+    60%,
+    100% {
+        box-shadow: 9984px 0 0 -5px $white;
+    }
+}
+
+@keyframes dotPulse {
+    0% {
+        box-shadow: 9999px 0 0 -5px $white;
+    }
+
+    30% {
+        box-shadow: 9999px 0 0 2px $white;
+    }
+
+    60%,
+    100% {
+        box-shadow: 9999px 0 0 -5px $white;
+    }
+}
+
+@keyframes dotPulseAfter {
+    0% {
+        box-shadow: 10014px 0 0 -5px $white;
+    }
+
+    30% {
+        box-shadow: 10014px 0 0 2px $white;
+    }
+
+    60%,
+    100% {
+        box-shadow: 10014px 0 0 -5px $white;
+    }
+}

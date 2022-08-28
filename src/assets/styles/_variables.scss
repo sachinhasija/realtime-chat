@@ -1,0 +1,286 @@
+/* Colors */
+
+$white: #FFFFFF;
+$black: #000000;
+$blackTwo: #242424;
+$lightGreyColor: #AAAAAA;
+$titleColor: #7E7E7E;
+$btnColor: #EDDCDD;
+$lightText: #CEC4C7;
+
+$successColor: #00AFF0;
+$successColorLight: #F0FFF6;
+$successColorGreen: #2ECC71;
+$successColorDark: #23A700;
+$lightGreen: #95CD86;
+$failColor: #FD1C24;
+$failColorLight: #FFF0F0;
+$attentionColor: #FFAA00;
+$attentionColorLight: #FFF7F0;
+$errorColor: #F44336;
+$goldColor: #E8BB3F;
+$membershipGold: #A37E00;
+$effectColor: #A70000;
+$green: #77B500;
+$count: #FDC91C;
+
+$disabledColor: #99A4B6;
+$disabledBg: #DFE5EF85;
+
+/* Font */
+
+$fontFamily: 'PoppinsRegular';
+$fontFamilyMedium: 'PoppinsMedium';
+$fontFamilySemiBold: 'PoppinsSemiBold';
+$fontFamilyBold: 'PoppinsBold';
+$fontWeightLight: 300;
+$fontWeightRegular: 400;
+$fontWeightMedium: 500;
+$fontWeightSemiBold: 600;
+$fontWeightBold: 700;
+
+/* Shadows */
+
+$boxShadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+$boxShadowTop: 0 -2px 4px 0 rgba(0, 0, 0, 0.1);
+$boxShadowLight: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+
+/* Z-index base levels */
+
+$zIndexModal: 100;
+$zIndexGenericError: 200;
+
+/* Transition styles */
+
+$transitionStyle: ease-in 0.2s;
+$transitionStyleButton: ease-in-out 0.1s;
+
+/*  Topbar related  */
+
+$topbarHeight: 60px;
+$topbarHeightDesktop: 72px;
+$TopbarLogoHeight: 25px;
+
+/*  Media query related  */
+
+$breakpoint_280: 280px;
+$breakpoint_320: 320px;
+$breakpoint_345: 345px;
+$breakpoint_360: 360px;
+$breakpoint_375: 375px;
+$breakpoint_380: 380px;
+$breakpoint_390: 390px;
+$breakpoint_410: 410px;
+$breakpoint_425: 425px;
+$breakpoint_480: 480px;
+$breakpoint_500: 500px;
+$breakpoint_576: 576px;
+$breakpoint_600: 600px;
+$breakpoint_650: 650px;
+$breakpoint_700: 700px;
+$breakpoint_730: 730px;
+$breakpoint_767: 767px;
+$breakpoint_768: 768px;
+$breakpoint_820: 820px;
+$breakpoint_890: 890px;
+$breakpoint_912: 912px;
+$breakpoint_915: 915px;
+$breakpoint_920: 920px;
+$breakpoint_950: 950px;
+$breakpoint_992: 992px;
+$breakpoint_1024: 1024px;
+$breakpoint_1100: 1100px;
+$breakpoint_1180: 1180px;
+$breakpoint_1200: 1200px;
+$breakpoint_1248: 1248px;
+$breakpoint_1279: 1279px;
+$breakpoint_1280: 1280px;
+$breakpoint_1366: 1366px;
+$breakpoint_1398: 1398px;
+$breakpoint_1400: 1400px;
+$breakpoint_1440: 1440px;
+$breakpoint_1549: 1549px;
+$breakpoint_1550: 1550px;
+$breakpoint_1600: 1600px;
+$breakpoint_1800: 1800px;
+$breakpoint_1919: 1919px;
+$breakpoint_1920: 1920px;
+
+:root {
+    --avatusColor: #DB0716;
+    --avatusColorLight: #FA2D2D;
+    --avatusColorDark: #FF0000;
+
+    --whiteColor: #FFFFFF;
+    --lightColor: #FFFFFFCC;
+
+    --darkGreyColor: #1D1D1F;
+    --blackColor: #000000;
+    --blackColorTwo: #141414;
+    --blackColorThree: #0C0C0C;
+    --blackColorFour: #242424;
+    --blackColorFive: #454545;
+
+    --infoBox: #2A2518;
+    --domesColor: #787878;
+    --doveGrayColor: #696969;
+    --repliedBg: #5F5F5F;
+    --silverColor: #CCCCCC;
+    --altoColor: #D8D8D8;
+    --brownColor: #422F1E;
+    --avatCoinColor: #27363A;
+    --linkColor: #009DFF;
+    --chatBorder: #21212175;
+    --menuItemColor: #B5B5B5;
+
+    --matterColor: #4A4A4A;
+    --matterColorPlaceholder: #979797;
+    --matterColorAnti: #B2B2B2;
+    --eventTimeBg: #000000;
+    --liveEventBg: #141414;
+
+    --textColor: #333333;
+    --borderColor: #FFFFFF1A;
+
+    --greyColor: #404040;
+    --greyColorTwo: #8A8A8A;
+    --greyColorThree: #3A393C;
+    --lightGreyColor: #AAAAAA;
+    --inputBorderColor: #585757;
+    --membershipBg: #282828;
+    --domeInputColor: #8A8A8A;
+    --emptyStateColor: #5A5A5A;
+    --sidebarTextColor: #5D5D5D;
+
+    --countColor: #FDC91C;
+
+    --bgColorOne: rgba(0, 0, 0, .7);
+    --bgColorTwo: rgba(0, 0, 0, .5);
+    --bgColorThree: rgba(0, 0, 0, .86);
+    --bgColorFour: rgba(0, 0, 0, .6);
+    --bgColorFive: rgba(0, 0, 0, .16);
+    --videoOverlay: rgba(36, 36, 36, .5);
+    --closeBg: #080808;
+
+    --blackColorTwoBg: rgba(20, 20, 20, .9);
+    --blackColorTwoBgTwo: rgba(20, 20, 20, .5);
+    --blackColorTwoBgThree: rgba(60, 60, 60, .6);
+    --blackColorTwoBgFour: rgba(36, 36, 36, .459);
+    --blackColorTwoBgFive: rgba(36, 36, 36, .68);
+
+    --whiteColorOne: rgba(255, 255, 255, .4);
+    --whiteColorTwo: rgba(255, 255, 255, .1);
+    --whiteColorThree: rgba(255, 255, 255, .25);
+    --whiteColorFour: rgba(255, 255, 255, .6);
+
+    --doveGrayColorBg: rgba(105, 105, 105, .58);
+    --doveGrayColorBgTwo: rgba(112, 112, 112, .58);
+
+    --effectColorOne: rgba(167, 0, 0, .2);
+
+    --goldColorBg: rgba(232, 187, 63, .102);
+
+    --silverColorBgOne: rgba(204, 204, 204, .141);
+    --silverColorBgTwo: rgba(204, 204, 204, .831);
+    --silverColorBgThree: rgba(204, 204, 204, .588);
+    --silverColorBgFour: rgba(204, 204, 204, .671);
+    --silverColorBgFive: rgba(204, 204, 204, .169);
+
+    --avatusColorBgOne: rgba(219, 7, 22, .65);
+    --avatusColorBgTwo: rgba(219, 7, 22, .85);
+
+    --redColorBgOne: rgba(255, 0, 0, .65);
+    --redColorBgTwo: rgba(255, 0, 0, .52);
+    --redColorBgThree: rgba(203, 32, 32, .5);
+
+    --authenticationBg: rgba(148, 140, 140, 0);
+
+    --tagBgColor: var(--greyColorThree);
+    --storyBorderColor: var(--textColor);
+    --forwardChatColor: var(--textColor);
+    --storyTimeColor: var(--bgColorTwo);
+    --giftBgColor: var(--greyColorThree);
+    --receiveLinkColor: var(--linkColor);
+    --profileBg: var(--bgColorTwo);
+
+    --headerBoxShadow: 0 3px 20px 0 var(--bgColorTwo);
+
+    --headerColor: var(--darkGreyColor);
+    --footerColor: var(--blackColor);
+    --headerLinks: var(--whiteColor);
+    --profileBorder: var(--blackColor);
+    --textareaBg: var(--blackColor);
+    --msgSendBg: var(--blackColorFour);
+    --replyingMsgBg: var(--blackColorFour);
+    --searchInputColor: var(--greyColorTwo);
+
+    --base-grid: 6px;
+    --link-size: calc(var(--base-grid)*20);
+}
+
+.light_theme {
+
+    --bgColorOne: rgba(255, 255, 255, .6);
+
+    --whiteColor: #000000;
+    --blackColor: #FFFFFF;
+    --bgColorTwo: #F9F9F9;
+    --countColor: #F7A32E;
+
+    --greyColor: #D3D3D3;
+    --lightGreyColor: #727272;
+    --blackColorTwo: #F4F4F4;
+    --darkGreyColor: #FFFFFF;
+    --headerColor: #FBFBFB;
+    --borderColor: rgba(114, 114, 114, .25);
+    --blackColorTwoBgTwo: #EBEBEB;
+    --whiteColorTwo: #D5D5D5;
+    --eventTimeBg: #E8E8E8;
+    --linkColor: #FFFFFF;
+    --forwardChatColor: #DEDEDE;
+    --repliedBg: #FFFFFF;
+    --domeInputColor: #000000;
+    --timePickerColor: #8A8A8A;
+    --matterColor: #E2E2E2;
+    --doveGrayColorBg: #CBCBCB;
+    --menuItemColor: #5D5D5D;
+
+    --footerColor: #EBEBEB;
+    --headerLinks: #999999;
+    --storyTimeColor: transparent;
+    --membershipBg: #F4F4F4;
+    --tagBgColor: #313131;
+    --liveEventBg: #FFFFFF;
+    --msgSendBg: #6E6E6E;
+    --headerLinksLight: #9999999E;
+    --bgColorFive: #9B9B9B;
+    --infoBox: #E8BB3F1A;
+    --lightColor: #727272;
+    --replyingMsgBg: #FFFFFF;
+    --whiteColorOne: #333333;
+    --greyColorTwo: #FFFFFF;
+    --searchInputColor: #333333;
+    --profileBg: rgba(255, 255, 255, .32);
+
+    --silverColorBgOne: rgba(102, 102, 102, .241);
+    --silverColorBgTwo: rgba(102, 102, 102, .831);
+    --silverColorBgThree: rgba(102, 102, 102, .78);
+    --silverColorBgFour: rgba(102, 102, 102, .87);
+    --silverColorBgFive: rgba(102, 102, 102, .269);
+    --blackColorTwoBg: rgba(244, 244, 244, .9);
+    --videoOverlay: rgba(255,255,255,.3);
+
+    --headerBoxShadow: 0px 3px 20px #00000026;
+
+    --storyBorderColor: var(--avatusColor);
+    --giftBgColor: var(--blackColorTwo);
+    --inputBorderColor: var(--borderColor);
+    --blackColorThree: var(--blackColorTwo);
+    --greyColorThree: var(--inputBorderColor);
+    --altoColor: var(--lightGreyColor);
+    --profileBorder: var(--headerLinks);
+    --textareaBg: var(--membershipBg);
+    --blackColorFour: var(--whiteColorFour);
+    --avatCoinColor: var(--bgColorFive);
+    --domeBoxShadow: 0px 0px 6px rgba(219, 7, 22, 0.561);
+}

@@ -2,10 +2,10 @@ interface BlockData { isBlocked: boolean, timestamp: string }
 
 interface InboxData { roomId: string }
 
-interface AllInboxData { [inboxId: string] : InboxData }
+interface AllInboxData { [inboxId: string]: InboxData }
 
 interface MessageData {
-    deleteFor?: {[userId: string]: boolean}
+    deleteFor?: { [userId: string]: boolean }
     mediaUrl?: string
     messageId?: string
     messageRoomId?: string
@@ -65,7 +65,7 @@ interface GroupMessageUpdateData {
 }
 
 interface Room {
-    chatRoomMembers: {[userId: string]: ChatRoomMemberData}
+    chatRoomMembers: { [userId: string]: ChatRoomMemberData }
     lastMessage: MessageData
     chatLastUpdate: string
     chatRoomId: string
@@ -77,22 +77,39 @@ interface TotalUnreadData {
 }
 
 interface UpdateRoom {
-    chatRoomMembers?: {[userId: string]: ChatRoomMemberData}
+    chatRoomMembers?: { [userId: string]: ChatRoomMemberData }
     lastMessage?: MessageData
     chatLastUpdate?: string
     chatRoomId?: string
     chatRoomType?: string
 }
 
+interface FirebaseUser {
+    accessToken: string
+    auth: {}
+    displayName: string
+    email: string
+    emailVerified: boolean
+    isAnonymous: boolean
+    metadata: { createdAt: string, lastLoginAt: string, lastSignInTime: string, creationTime: string }
+    phoneNumber: null
+    photoURL: string
+    proactiveRefresh: {}
+    providerData: []
+    providerId: string
+    reloadListener: null
+    reloadUserInfo: {}
+    stsTokenManager: {}
+    tenantId: null
+    uid: string
+}
+
 interface User {
-    deviceDetails?: {
-        deviceTokens: {[deviceToken: string]: string}
-    },
     email?: string
     id: string
-    image: string
     isOnline: boolean
     lastSeen?: string
+    image?: string
     createdAt?: string
     name: string
     showOnline: boolean
@@ -100,7 +117,7 @@ interface User {
 
 interface UpdateUser {
     deviceDetails?: {
-        deviceTokens?: {[deviceToken: string]: string}
+        deviceTokens?: { [deviceToken: string]: string }
     },
     email?: string
     id?: string
@@ -113,10 +130,10 @@ interface UpdateUser {
 
 interface UpdateUserDoc {
     [x: string]: string | boolean | {
-        deviceTokens?: {[deviceToken: string]: string}
+        deviceTokens?: { [deviceToken: string]: string }
     }
 }
 
 export type {
-  AllInboxData, BlockData, ChatRoomMemberData, GroupData, GroupMessageUpdateData, NewChatData, InboxData, MessageData, Room, TotalUnreadData, UpdateRoom, User, UpdateUser, UpdateUserDoc,
+    AllInboxData, BlockData, ChatRoomMemberData, FirebaseUser, GroupData, GroupMessageUpdateData, NewChatData, InboxData, MessageData, Room, TotalUnreadData, UpdateRoom, User, UpdateUser, UpdateUserDoc,
 };

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 70 70">
+  <g id="ic_back" transform="translate(-13.032 -65.032)">
+    <rect id="Rectangle_168" data-name="Rectangle 168" width="70" height="70" transform="translate(13.032 65.032)" fill="#fff" opacity="0"/>
+    <g id="icon" transform="translate(33.95 119.467) rotate(-90)">
+      <rect id="Rectangle_500" data-name="Rectangle 500" width="27.228" height="3.89" transform="translate(19.282 0) rotate(45)" fill="#fff"/>
+      <rect id="Rectangle_501" data-name="Rectangle 501" width="27.228" height="3.89" transform="translate(22.004 2.751) rotate(135)" fill="#fff"/>
+      <path id="Path_36643" data-name="Path 36643" d="M0,0H9.724L0,9.724Z" transform="translate(19.323 11.746) rotate(45)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

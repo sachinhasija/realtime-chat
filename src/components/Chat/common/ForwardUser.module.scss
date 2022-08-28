@@ -1,0 +1,116 @@
+@import 'assets/styles/_mixins.scss';
+
+.forward_user_list {
+    max-height: 300px;
+    min-height: 220px;
+    margin: 15px 0;
+
+    @media screen and (max-width: $breakpoint_767) {
+        max-height: 220px;
+    }
+
+    .forward_msgs {
+        margin-bottom: 12px;
+        padding-right: 4px;
+
+        .img_cover {
+            @include flexbox;
+            max-width: 80%;
+        }
+
+        figure {
+            width: 30px;
+            height: 30px;
+            margin: 0 10px 0 0;
+            border-radius: 50%;
+            overflow: hidden;
+            display: inline-block;
+            border: 1px solid var(--blackColor);
+
+            img {
+                @include imgCover;
+            }
+        }
+
+        .name {
+            font: 12px/1.5 $fontFamilyMedium;
+            letter-spacing: 0.6px;
+            color: var(--whiteColor);
+            vertical-align: top;
+            margin-top: 6px;
+            display: inline-block;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            text-transform: capitalize;
+        }
+    }
+}
+
+.forward_list {
+    margin-bottom: 20px;
+
+    ul {
+        >li {
+            padding: 0 5px;
+        }
+    }
+
+    .forward_user_wrapper {
+        @include flexbox;
+        flex-flow: column;
+        text-align: center;
+
+        .img_wrapper {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            margin: auto;
+            border-radius: 50%;
+            border: 1px solid var(--blackColor);
+
+            img {
+                @include imgCover;
+                border-radius: 50%;
+            }
+
+            .remove {
+                @include position(absolute, 2px, -2px, auto, auto);
+                background-color: var(--whiteColor);
+                @include flexCenter;
+                width: 14px;
+                height: 14px;
+                border-radius: 50%;
+                color: var(--blackColorThree);
+                transition: all ease-in 0.3s;
+
+                &:hover,
+                &:active {
+                    background-color: var(--avatusColor);
+                }
+
+                &::before {
+                    content: '';
+                    @include position(absolute, 50%, auto, auto, 50%);
+                    transform: translate(-50%, -50%);
+                    width: 7px;
+                    height: 1.8px;
+                    background-color: var(--blackColorThree);
+                }
+            }
+        }
+
+        .name {
+            font-size: 10px;
+            line-height: 1.6;
+            letter-spacing: 0.6px;
+            color: var(--whiteColor);
+            margin-top: 7px;
+            display: inline-block;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            text-transform: capitalize;
+        }
+    }
+}

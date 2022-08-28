@@ -1,0 +1,106 @@
+@import './assets/styles/mixins';
+
+header {
+    position: fixed;
+    width: 100%;
+    padding: 10px 5px;
+    background-color: #1D1D1F;
+    top: 0;
+    left: 0;
+    box-shadow: 0 3px 20px 0 rgb(0 0 0 / 50%);
+    box-shadow: var(--headerBoxShadow);
+    transition: -webkit-transform .6s cubic-bezier(.215,.61,.355,1);
+    transition: transform .6s cubic-bezier(.215,.61,.355,1);
+    transition: transform .6s cubic-bezier(.215,.61,.355,1),-webkit-transform .6s cubic-bezier(.215,.61,.355,1);
+    -webkit-transition: transform .6s cubic-bezier(.215,.61,.355,1);
+    z-index: 10;
+    .flex_headrow {
+        max-width: 1170px;
+        margin: 0 auto;
+        @include fpos(center, space-between);
+    }
+
+    &.loggedin_header {
+        @media screen and (max-width: $breakpoint_1366) {
+            padding: 0;
+        }
+
+        @media screen and (max-width: $breakpoint_768) {
+            @include flexAlign;
+            min-height: 65px;
+        }
+
+        .flex_headrow {
+
+            
+        }
+    }
+}
+
+.custom_container {
+    max-width: 1170px;
+    margin: 0 auto;
+    position: relative;
+    height: 100%;
+    padding: 73px 0 0;
+    @media screen and (max-width: $breakpoint_1366) {
+        max-width: 95%;
+    }
+  
+    @media screen and (max-width: $breakpoint_1024) {
+        width: 100%;
+        max-width: 100%;
+        padding: 0 20px;
+    }
+  
+    @media screen and (max-width: $breakpoint_576) {
+        padding: 0 15px;
+    }
+}
+
+.login_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .sign_in_btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgb(0, 0, 0);
+        cursor: pointer;
+        height: 50px;
+        line-height: 50px;
+        border-radius: 3px;
+        background-color: rgb(255, 255, 255);
+        outline: rgb(255, 255, 255) none 0px;
+        width: 200px;
+        margin-top: 50px;
+        transition: all 0.2s cubic-bezier(0.72, 0.01, 0.56, 1) 0s;
+        -webkit-transition: all .3s ease;
+        -moz-transition: all .3s ease;
+        -ms-transition: all .3s ease;
+        -o-transition: all .3s ease;
+        transition: all .3s ease;
+        &:hover {
+            -webkit-transition: all .8s ease-out;
+            -moz-transition: all .3s ease;
+            -ms-transition: all .3s ease;
+            -o-transition: all .3s ease;
+            transition: all .3s ease-out;
+            height: 55px;
+            width: 205px;
+        }
+        img {
+            width: 50px;
+            height: 50px;
+        }
+        span {
+            font-size: 13px;
+            font-weight: bold;
+        }
+    }
+    h2 {
+        margin-top: 100px;
+    }
+}

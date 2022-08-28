@@ -1,0 +1,40 @@
+@import 'assets/styles/_mixins.scss';
+
+.search_wrap {
+    .search_input {
+        background-color: var(--blackColorThree);
+        padding: 11px 10px 11px 38px;
+        color: var(--searchInputColor);
+        font: normal normal normal 12px/18px $fontFamily;
+        letter-spacing: 0.12px;
+        border: 1px solid transparent;
+        caret-color: var(--avatusColor);
+
+        @media screen and (max-width: $breakpoint_820) {
+            padding: 10px 10px 10px 34px;
+        }
+
+        &:hover,
+        &:focus {
+            border-color: var(--inputBorderColor);
+        }
+    }
+
+    .icon {
+        position: absolute;
+        top: 50%;
+        left: 12px;
+        transform: translateY(-50%);
+        line-height: 0;
+
+        @media screen and (max-width: $breakpoint_767) {
+            top: 55%;    
+        }
+        
+        img {
+            @media screen and (max-width: $breakpoint_820) {
+                max-width: 12px;
+            }
+        }
+    }
+}
