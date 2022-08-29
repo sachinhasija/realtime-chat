@@ -30,6 +30,7 @@ import ForwardUser from './ForwardUser';
 import CircularProgressLoader from 'components/Loaders/CircularProgress';
 import scss from './UserProfile.module.scss';
 import forwardUserScss from './ForwardUser.module.scss';
+import NewGroupChatForm from 'forms/NewGroupChatForm';
 
 interface PeopleData {
   page?: number,
@@ -450,7 +451,7 @@ const GroupProfile = ({
   return (
     <div className={`sidenav ${scss.contact_nav} ${expandMedia ? scss.media_nav : ''}`}>
 
-      {expandMedia && media ? (
+      {expandMedia && media && media.size > 0 ? (
         <>
           <div className={scss.close_btn_wrapper}>
             <button type="button" onClick={() => handleMediaExpand(false)} className={scss.cross} aria-label="Media screen back button">
@@ -525,7 +526,7 @@ const GroupProfile = ({
                 </button>
               ) : null}
             </div>
-            {media ? (
+            {media && media.size > 0 ? (
               <div className={scss.media_wrap}>
                 <div className={scss.media_header}>
                   <h3>Media</h3>
@@ -673,11 +674,7 @@ const GroupProfile = ({
           </div>
         </>
       ) : isAdmin ? (
-        <form onSubmit={handleFormSubmit}>
-          <button type="button" onClick={handleBack}>Go Back</button>
-          <input type="text" name="groupName" id="groupName" />
-          <button type="submit">Create</button>
-        </form>
+        <NewGroupChatForm edit defaultData={{ image: data?.image ?? '', name: data?.name ?? '' }} handleFormSubmit={handleGroupFormSubmit} handleBack={handleBack} />
       ) : null}
       <ModalComponent
         id="user-profile-main-modal"
