@@ -61,7 +61,6 @@ export default function MessageField({
   const [userExists, setUserExists] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const [anchorEl, setAnchorEl] = useState<null | HTMLButtonElement>(null);
-  const unblockRefId = useRef<string | undefined>();
 
   // image upload
   const [openFile, setOpenFile] = useState(false);
@@ -103,15 +102,9 @@ export default function MessageField({
   const lastMessageTime = roomData && chatInfo?.chatId && typeof roomData.chatRoomMembers?.[chatInfo?.chatId]?.memberDelete !== 'undefined' ? roomData.chatRoomMembers?.[chatInfo?.chatId].memberDelete : undefined;
 
   const handleUserUnblock = (userId: string) => {
-    unblockRefId.current = userId;
+    const BlockModalObj = new BlockModel();
+    BlockModalObj.removeBlockedUser(currentUserInfo.id, userId);
   };
-
-  useEffect(() => {
-    if (unblockRefId.current && currentUserInfo?.id) {
-      const BlockModalObj = new BlockModel();
-      BlockModalObj.removeBlockedUser(currentUserInfo.id, unblockRefId.current);
-    }
-  }, [currentUserInfo]);
 
   useEffect(() => {
     if (currentUserInfo?.id && chatInfo?.chatId && roomId) {

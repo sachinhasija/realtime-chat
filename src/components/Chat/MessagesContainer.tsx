@@ -171,6 +171,19 @@ const MessagesContainer = (props: Props) => {
       }
       setTotalGroupsDataMain(data);
     }
+    if (usernamesData && search?.trim()) {
+      searched.current = search?.trim();
+      const searchedData: User[] = [];
+      usernamesData.forEach((data: User) => {
+        if (data?.name?.toLocaleLowerCase()?.includes(search.toLocaleLowerCase())) {
+          searchedData.push(data);
+        }
+      });
+      setSearchedUsernames(searchedData);
+    } else {
+      searched.current = '';
+      setSearchedUsernames(null);
+    }
   }, 300);
 
   const handleUserSelect = (userData: { userId: string, name: string, isGroup: boolean }, value: boolean) => {
@@ -443,10 +456,8 @@ const MessagesContainer = (props: Props) => {
   useEffect(() => {
     if (usersToChat && !searched?.current) {
       setUsernamesData(usersToChat);
-    } else if (searchedUsersToChat && searched?.current) {
-      setSearchedUsernames(searchedUsersToChat);
     }
-  }, [usersToChat, searchedUsersToChat]);
+  }, [usersToChat]);
 
   useEffect(() => {
     if (roomData) {

@@ -45,15 +45,25 @@ const NewChat = ({
   const mainData = searched?.current ? searchedUsernames : usernamesData;
 
   const handleUserSearch = debounce((search: string) => {
-    searched.current = search;
+    if (usernamesData && search?.trim()) {
+      searched.current = search?.trim();
+      const searchedData: User[] = [];
+      usernamesData.forEach((data: User) => {
+        if (data?.name?.toLocaleLowerCase()?.includes(search.toLocaleLowerCase())) {
+          searchedData.push(data);
+        }
+      });
+      setSearchedUsernames(searchedData);
+    } else {
+      searched.current = '';
+      setSearchedUsernames(null);
+    }
   }, 300);
 
 
   useEffect(() => {
     if (usersToChat && !searched?.current) {
       setUsernamesData(usersToChat);
-    } else if (searchedUsersToChat && searched?.current) {
-      setSearchedUsernames(searchedUsersToChat);
     }
   }, [usersToChat, searchedUsersToChat]);
 
@@ -85,7 +95,7 @@ const NewChat = ({
         </li>
       </ul>
       <ul className={scss.contact_list} id="chat__inbox__main__new__user__list">
-        {(!mainData || mainData.length === 0) ? (
+        {(!mainData || mainData.length === 0) && !searched.current ? (
           <CircularProgressLoader className={scss.list_loader} />
         ) : (
           <InfiniteScroll

@@ -837,3 +837,50 @@ button.fill_red_btn.disable_btn, a.fill_red_btn.disable_btn {
 .m_title.b_none {
     border: none;
 }
+
+.success_popup {
+    text-align: center;
+    padding-bottom: 12px;
+    .common_para {
+        max-width: 300px;
+        margin: 0 auto 34px;
+    }
+    .action_btns_wrapper {
+        margin: 0 -10px;
+        display: flex;
+        align-items: center;
+    }
+}
+
+.sub_title {
+    font: 24px/1.88 "PoppinsMedium";
+    color: var(--whiteColor);
+    letter-spacing: 0.6px;
+    margin: 0;
+    display: block;
+    position: relative;
+}
+
+.success_popup > span, .success_popup .sub_title {
+    font-size: 22px;
+    margin-bottom: 14px;
+}
+
+.btn.block, .btn.outline_btn {
+    width: 163px;
+}
+
+.action_btns_wrapper {
+    margin: 0 -10px;
+    @include flexAlign;
+
+    .btn_wrap {
+        width: 50%;
+        padding: 0 10px;
+    }
+}
+
+button.only_child, a.only_child {
+    max-width: 163px;
+    margin: 0 auto;
+}

@@ -40,7 +40,7 @@ const Inbox = ({
     if (inboxData && chatData && value?.trim()) {
       const updatedInboxData = new Map();
       inboxData.forEach((val: string, key: string) => {
-        if (chatData[val]?.name?.includes(value)) {
+        if (chatData[val]?.name?.toLocaleLowerCase()?.includes(value.toLocaleLowerCase())) {
           updatedInboxData.set(key, val);
         }
       });

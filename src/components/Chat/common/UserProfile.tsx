@@ -55,7 +55,6 @@ const UserProfile = ({
   const [expandMedia, setExpandMedia] = useState(false);
   const [switchEnabled, setSwitchEnabled] = useState(false);
   const [selectedMediaId, setSelectedMediaId] = useState('');
-  const blockRefId = useRef<string | undefined>();
   const unblockRefId = useRef<string | undefined>();
   const mediaUnsubscribeEvent = useRef<Unsubscribe | null>(null);
 
@@ -107,23 +106,19 @@ const UserProfile = ({
 
   const handleUserBlock = (chatId: string) => {
     if (chatId) {
-      blockRefId.current = chatId;
+      const BlockModalObj = new BlockModel();
+      const data = {
+        isBlocked: true,
+        timestamp: `${+new Date()}`,
+      };
+      BlockModalObj.addBlockedUser(currentUserId, chatId, data);
+      setModalType('blockSuccess');
     }
   };
 
   const handleUserUnblock = (userId: string) => {
-    unblockRefId.current = userId;
-  };
-
-  const handleUserReport = (data: { reason: string, reasonDescription: string }) => {
-    if (chatInfo?.chatId) {
-      const values: { reason: string, complainantId: string } = {
-        reason: data.reason !== '13' ? reasons[data.reason] : data.reasonDescription,
-        complainantId: chatInfo.chatId,
-      };
-      if (values.complainantId) {
-      }
-    }
+    const BlockModalObj = new BlockModel();
+    BlockModalObj.removeBlockedUser(currentUserId, userId);
   };
 
   const modalContent = () => {
@@ -151,10 +146,10 @@ const UserProfile = ({
             </p>
             <div className="action_btns_wrapper">
               <div className="btn_wrap">
-                <button type="button" className="fill_red_btn btn-effect" onClick={() => handleUserBlock(chatInfo.chatId)}>Block</button>
+                <button type="button" className="fill_red_btn btn-effect btn block" onClick={() => handleUserBlock(chatInfo.chatId)}>Block</button>
               </div>
               <div className="btn_wrap">
-                <button type="button" className="outline_btn btn-effect" onClick={handleModalClose}>
+                <button type="button" className="outline_btn btn-effect btn block" onClick={handleModalClose}>
                   Cancel
                 </button>
               </div>
@@ -209,25 +204,6 @@ const UserProfile = ({
       mounted = false;
     };
   }, [chatInfo, currentUserId]);
-
-  useEffect(() => {
-    if (blockRefId.current && currentUserId) {
-      const BlockModalObj = new BlockModel();
-      const data = {
-        isBlocked: true,
-        timestamp: `${+new Date()}`,
-      };
-      BlockModalObj.addBlockedUser(currentUserId, blockRefId.current, data);
-      setModalType('blockSuccess');
-    }
-  }, [currentUserId]);
-
-  useEffect(() => {
-    if (unblockRefId.current && currentUserId) {
-      const BlockModalObj = new BlockModel();
-      BlockModalObj.removeBlockedUser(currentUserId, unblockRefId.current);
-    }
-  }, [currentUserId]);
 
   return (
     <div className={`sidenav ${scss.contact_nav}  ${expandMedia ? scss.media_nav : ''}`}>
@@ -365,7 +341,7 @@ const UserProfile = ({
               {chatInfo.chatId && chatInfo.roomId ? (
                 <li>
                   <button type="button" className="button" onClick={() => handleChatDelete(chatInfo.roomId ?? '', chatInfo.chatId)}>
-                    Delete
+                    Delete Chat
                   </button>
                 </li>
               ) : null}
