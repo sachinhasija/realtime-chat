@@ -21,8 +21,7 @@
 
         .chat_inner_nav {
             height: 100%;
-            padding: 24px 0 0;
-            height: 95%;
+            padding: 0;
             overflow-y: initial;
 
             .msg_wrap {
@@ -31,6 +30,9 @@
 
                 button {
                     @include flexAlign;
+                }
+                h1 {
+                    padding: 16px;
                 }
             }
 
@@ -94,7 +96,6 @@
                     @include flexbox;
                     padding: 15px 10px 12px 10px;
                     cursor: pointer;
-                    z-index: 8;
 
                     .chat_list_item {
                         @include flexbox;
@@ -145,7 +146,7 @@
                         margin: 0 8px 0 0;
 
                         img {
-                            @include imgCover;
+                            @include imgContain;
                             border-radius: 50%
                         }
 
@@ -291,7 +292,7 @@
 
             .new_chat {
                 .chat_title {
-                    padding: 0 18px 18px;
+                    padding: 18px;
                 }
 
                 .search_wrap {
@@ -426,14 +427,16 @@
                 @include flexAlign;
 
                 .u_img {
-                    width: 34px;
-                    height: 34px;
+                    width: 40px;
+                    height: 40px;
                     margin: 0 10px 0 0;
                     border-radius: 50%;
                     overflow: hidden;
 
                     img {
-                        @include imgCover;
+                        height: 100%;
+                        width: 100%;
+                        object-fit: contain;
                     }
                 }
             }
@@ -478,7 +481,7 @@
             height: 100%;
             overflow-y: auto;
             padding: 20px 30px 10px 20px;
-            max-height: calc(100vh - 340px);
+            max-height: calc(100vh - 285px);
 
             @media screen and (max-width: $breakpoint_1024) {
                 max-height: calc(100vh - 332px);
@@ -877,10 +880,9 @@
         .msg_field {
             background-color: var(--darkGreyColor);
             border-top: 1px solid var(--borderColor);
-            padding: 12px 20px;
             width: 100%;
             @include flexbox;
-            align-items: flex-end;
+            align-items: center;
             @include position(absolute, auto, auto, 0, 0);
             min-height: 70px;
 
@@ -891,7 +893,7 @@
             .field_wrap {
                 width: 100%;
                 @include flexbox;
-                align-items: flex-end;
+                align-items: center;
                 transition: all ease-in 0.3s;
 
                 &.typing {
@@ -911,7 +913,7 @@
                     line-height: 1.5;
                     letter-spacing: 0.12px;
                     resize: none;
-
+                    margin-right: 10px;
                     &.expand {
                         height: 70px;
                     }
@@ -921,8 +923,7 @@
                     display: none;
                     width: 20px;
                     height: 20px;
-                    margin: 0 0 10px 20px;
-
+                    margin-right: 20px;
                     &.show {
                         display: inline-block;
                     }
@@ -930,13 +931,12 @@
             }
 
             &.selected_msg {
-                padding: 23px 30px;
-
                 >div {
                     width: 100%;
                 }
 
                 .col {
+                    margin-left: 10px;
                     @include flexAlign;
 
                     span {
@@ -961,9 +961,10 @@
                 @include flexAlign;
                 @include position(absolute, -67px, auto, auto, 0px);
                 background-color: var(--replyingMsgBg);
-                padding: 16px 20px;
+                padding: 16px 0 10px;
 
                 .reply_msg_wrap {
+                    margin: 0 0 10px 10px;
                     >span {
                         display: block;
                         font-size: 10px;
@@ -1055,7 +1056,6 @@
 
         .images_preview_wrapper {
             background-color: var(--darkGreyColor);
-            padding: 8px 20px;
             border-top: 1px solid var(--borderColor);
             @include position(absolute, auto, auto, 0px, 0px);
             width: 100%;

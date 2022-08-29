@@ -30,9 +30,9 @@
     }
 
     .contact_info {
-        padding: 50px 20px 10px;
+        padding: 50px 20px 10px !important;
         max-height: calc(100vh - 200px);
-        overflow-y: auto;
+        overflow-y: auto !important;
 
         .u_img {
             width: 90px;
@@ -310,8 +310,6 @@
 
 .media_nav {
     .close_btn_wrapper {
-        min-height: 75px;
-
         .cross {
             top: 22px;
         }

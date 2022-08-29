@@ -2,6 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getStorage } from 'firebase/storage';
 
 const {
   REACT_APP_FIREBASE_API_KEY, REACT_APP_FIREBASE_AUTH_DOMAIN, REACT_APP_FIREBASE_PROJECT_ID, REACT_APP_FIREBASE_STORAGE_BUCKET, REACT_APP_FIREBASE_MESSAGING_SENDERID, REACT_APP_FIREBASE_APPID, REACT_APP_FIREBASE_MEASUREMENTID, REACT_APP_FIREBASE_MESSAGING_KEY,
@@ -69,6 +70,9 @@ export const signInWithGoogle = (callback, callbackError = null) => {
       }
     });
 }
+
+const storage = getStorage(firebaseApp);
+
 export {
-  db, fetchToken, firebaseApp, onMessageListener,
+  db, fetchToken, firebaseApp, onMessageListener, storage,
 };

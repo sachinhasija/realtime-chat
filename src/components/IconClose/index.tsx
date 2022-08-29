@@ -2,7 +2,6 @@ import React from 'react';
 import classNames from 'classnames';
 
 import close from 'assets/images/close-modal.svg';
-import closeLight from 'assets/images/close-modal-light.svg';
 import scss from './IconClose.module.scss';
 
 const SIZE_SMALL = 'small';
@@ -25,7 +24,6 @@ const IconClose = (props: any) => {
   return (
     <>
       <img src={close} className="dark_theme_img" alt="close" />
-      <img src={closeLight} className="light_theme_img" alt="close" />
     </>
   );
 };

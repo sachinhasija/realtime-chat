@@ -8,7 +8,7 @@ interface Props {
 export default function Loading(props: Props) {
   const { className } = props;
   return (
-    <div className={className}>
+    <div className={`${className} root-loader`}>
       <CircularProgress role="progressbar" id="progress" title="Progress" aria-label="progress" aria-labelledby="progress" />
     </div>
   );

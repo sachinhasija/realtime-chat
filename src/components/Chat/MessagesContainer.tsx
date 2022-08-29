@@ -1,6 +1,6 @@
 /* eslint-disable no-await-in-loop */
 import React, {
-  useState, useEffect, useRef, useCallback,
+  useState, useEffect, useRef, useCallback, useMemo,
 } from 'react';
 import {
   GroupData,
@@ -39,6 +39,7 @@ interface Props {
   currentUserInfo: { id: string, name: string },
   totalGroupsData: null | { [groupId: string]: GroupData },
   chatInfo: NewChatData | null
+  usersInDb: { [userId: string]: User } | null
   blockedData: null | { [userId: string]: { isBlocked?: boolean, timestamp: string } }
   selectedUserBlockedData: null | { [userId: string]: { isBlocked?: boolean, timestamp: string } }
   roomData: null | Room
@@ -57,7 +58,7 @@ interface Props {
 
 const MessagesContainer = (props: Props) => {
   const {
-    chatInfo, currentUserInfo, totalGroupsData, removeListeners, roomData, chatData, dataPresent, deletedRoomId, resetRoomMessages, blockedData, selectedUserBlockedData, showContactDetails, showGroupInfo, handleDeletedRoomId, handleContactToggleMain, handleGroupInfoToggle, handleToastMessage, onRoomMessageReset,
+    chatInfo, currentUserInfo, totalGroupsData, removeListeners, roomData, chatData, dataPresent, deletedRoomId, resetRoomMessages, blockedData, selectedUserBlockedData, showContactDetails, showGroupInfo, handleDeletedRoomId, handleContactToggleMain, handleGroupInfoToggle, handleToastMessage, onRoomMessageReset, usersInDb,
   } = props;
   const [messageData, setMessageData] = useState<{ [roomId: string]: Map<string, MessageData> } | null>(null);
   const messageUnsubscribeEvent = useRef<Unsubscribe[] | null>(null);
@@ -81,12 +82,18 @@ const MessagesContainer = (props: Props) => {
   const searched = useRef('');
   const roomDataRef = useRef<null | Room>(roomData);
   const [pageData, setPageData] = useState({ allUserNames: { page: 1, hasMoreData: false }, searchedUserName: { page: 1, hasMoreData: false } });
-  const [usernamesData, setUsernamesData] = useState<null | Record<string, unknown>[]>(null);
+  const [usernamesData, setUsernamesData] = useState<null | User[]>(null);
   const [searchedUsernames, setSearchedUsernames] = useState<null | User[]>(null);
 
   const mainData = searched?.current ? searchedUsernames : usernamesData;
-  const usersToChat: User[] = [];
-  const searchedUsersToChat: User[] = [];
+  const usersToChat: User[] = useMemo(() => {
+    return usersInDb ? Object.values(usersInDb) : [];
+  }, [usersInDb]);
+
+  const searchedUsersToChat: User[] = useMemo(() => {
+    return usersInDb ? Object.values(usersInDb) : [];
+  }, [usersInDb]);
+
   const lastMessageReceiverId = useRef<null | string>(roomData && roomData.lastMessage.receiverId ? roomData.lastMessage.receiverId : null);
 
   const lastMessageTime = roomData && typeof roomData.chatRoomMembers?.[currentUserInfo?.id]?.memberDelete !== 'undefined' ? roomData.chatRoomMembers?.[currentUserInfo?.id].memberDelete : undefined;
@@ -117,17 +124,6 @@ const MessagesContainer = (props: Props) => {
     setSelectedForwardMessageUser(null);
     isLastIndex.current = false;
     searched.current = '';
-    return null;
-  };
-
-  const fetchMoreData = (limit?: number, pageNumber?: number) => {
-    const payload: PeopleData = { limit: limit ?? 30 };
-    if (searched.current) {
-      payload.page = pageNumber || pageData.searchedUserName.page;
-      payload.search = searched.current;
-    } else {
-      payload.page = pageNumber || pageData.allUserNames.page;
-    }
     return null;
   };
 
@@ -164,7 +160,6 @@ const MessagesContainer = (props: Props) => {
 
   const handleUserSearch = debounce((search: string) => {
     searched.current = search;
-    fetchMoreData(30, 1);
     if (totalGroupsData) {
       const data = { ...totalGroupsData };
       if (typeof search === 'string') {
@@ -195,6 +190,7 @@ const MessagesContainer = (props: Props) => {
   };
 
   const handleUserForward = async () => {
+    console.log("currentUserInfo", currentUserInfo, selectedForwardMessageUser)
     if (currentUserInfo?.id && selectedForwardMessageUser && selectedMessagesForForward && Object.values(selectedForwardMessageUser).length > 0 && Object.values(selectedMessagesForForward).length > 0) {
       setForwardingMessage(true);
       const messageModelObject = new MessagesModel();
@@ -288,19 +284,19 @@ const MessagesContainer = (props: Props) => {
             {totalGroupsDataMain && typeof totalGroupsDataMain === 'object' && Object.values(totalGroupsDataMain).length > 0 ? Object.values(totalGroupsDataMain).map((gData: GroupData) => (
               <ForwardUser key={gData.groupId} selectedForwardMessageUser={selectedForwardMessageUser} name={gData.name} userId={gData.groupId} isGroup handleUserSelect={handleUserSelect} />
             )) : null}
-            {((!searchedUsernames || searchedUsernames?.length === 0)) || ((!usernamesData || usernamesData?.length === 0)) ? (
+            {((!usernamesData || usernamesData?.length === 0)) ? (
               <CircularProgressLoader />
             ) : (
               <InfiniteScroll
                 dataLength={mainData?.length || 0}
-                next={fetchMoreData}
+                next={() => null}
                 hasMore={searched.current ? pageData.searchedUserName.hasMoreData : pageData.allUserNames.hasMoreData}
                 className="overflow_unset"
                 loader={<CircularProgressLoader />}
                 scrollableTarget="chat__message__forward__user__list"
               >
-                {Array.isArray(mainData) && mainData.length > 0 ? mainData.map((userNameData: any) => (userNameData.id !== currentUserInfo.id && userNameData._id !== currentUserInfo.id ? (
-                  <ForwardUser key={userNameData._id || userNameData.id} isGroup={false} selectedForwardMessageUser={selectedForwardMessageUser} name={userNameData.username || userNameData.fullName || ''} userId={userNameData._id || userNameData.id} handleUserSelect={handleUserSelect} />
+                {Array.isArray(mainData) && mainData.length > 0 ? mainData.map((userNameData: User) => (userNameData.id !== currentUserInfo.id ? (
+                  <ForwardUser key={userNameData.id} isGroup={false} selectedForwardMessageUser={selectedForwardMessageUser} name={userNameData.name || ''} userId={userNameData.id} handleUserSelect={handleUserSelect} />
                 ) : null)) : null}
               </InfiniteScroll>
             )}
@@ -446,17 +442,11 @@ const MessagesContainer = (props: Props) => {
 
   useEffect(() => {
     if (usersToChat && !searched?.current) {
-      // setUsernamesData(usersToChat);
+      setUsernamesData(usersToChat);
     } else if (searchedUsersToChat && searched?.current) {
       setSearchedUsernames(searchedUsersToChat);
     }
   }, [usersToChat, searchedUsersToChat]);
-
-  useEffect(() => {
-    if (modalType === 'messageForward' && !usersToChat) {
-      fetchMoreData(30);
-    }
-  }, [usersToChat, modalType]);
 
   useEffect(() => {
     if (roomData) {
@@ -495,6 +485,7 @@ const MessagesContainer = (props: Props) => {
     }
   }, [resetRoomMessages]);
 
+  console.log("usersToChat", usersToChat)
   return (
     <>
       <div className={`list_container ${scss.msg_container} ${showContactDetails || showGroupInfo ? scss.view_contact : ''}`}>

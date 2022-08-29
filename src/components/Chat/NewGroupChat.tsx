@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import CircularProgressLoader from 'components/Loaders/CircularProgress';
 import SearchBar from 'components/SearchBar';
 // import FieldCheckbox from 'components/FieldCheckbox';
@@ -33,6 +33,7 @@ interface PeopleData {
 
 interface Props {
   currentUserInfo: { id: string, name: string },
+  usersInDb: { [userId: string]: User } | null
   toggleNewChat: (type: string) => void
   //   handleNewChat: (data: NewChatData) => null
   //   inboxData: Map<string, string> | null,
@@ -41,34 +42,27 @@ interface Props {
 }
 
 const NewGroupChat = ({
-  currentUserInfo, toggleNewChat,
+  currentUserInfo, usersInDb, toggleNewChat,
 }: Props) => {
-  const usersToChat: User[] = [];
-  const searchedUsersToChat: User[] = [];
   const searched = useRef('');
-  const [usernamesData, setUsernamesData] = useState<null | Record<string, unknown>[]>(null);
+  const [usernamesData, setUsernamesData] = useState<null | User[]>(null);
   const [searchedUsernames, setSearchedUsernames] = useState<null | User[]>(null);
   const [selectedUsersGroup, setSelectedUsersGroup] = useState<{ [userId: string]: { userId: string, name: string } } | null>(null);
-  const [pageData, setPageData] = useState({ allUserNames: { page: 1, hasMoreData: false }, searchedUserName: { page: 1, hasMoreData: false } });
+
+  const usersToChat: User[] = useMemo(() => {
+    return usersInDb ? Object.values(usersInDb) : [];
+  }, [usersInDb]);
+
+  const searchedUsersToChat: User[] = useMemo(() => {
+    return usersInDb ? Object.values(usersInDb) : [];
+  }, [usersInDb]);
 
   const mainData = searched?.current ? searchedUsernames : usernamesData;
 
   const [type, setType] = useState('members');
 
-  const fetchMoreData = (limit?: number, pageNumber?: number) => {
-    const payload: PeopleData = { limit: limit ?? 30 };
-    if (searched.current) {
-      payload.page = pageNumber || pageData.searchedUserName.page;
-      payload.search = searched.current;
-    } else {
-      payload.page = pageNumber || pageData.allUserNames.page;
-    }
-    return null;
-  };
-
   const handleUserSearch = debounce((search: string) => {
     searched.current = search;
-    fetchMoreData(30, 1);
   }, 300);
 
   const handleGroupFormSubmit = (data: { groupName: string, channelIconImage: string }) => {
@@ -110,22 +104,14 @@ const NewGroupChat = ({
   };
 
   useEffect(() => {
-    if (!usersToChat) {
-      fetchMoreData(30);
-    }
-  }, [usersToChat]);
-
-  useEffect(() => {
-    if (usersToChat && !searched?.current) {
-      // setUsernamesData(usersToChat);
-    } else if (searchedUsersToChat && searched?.current) {
+    if (searchedUsersToChat && searched?.current) {
       setSearchedUsernames(searchedUsersToChat);
     }
   }, [usersToChat, searchedUsersToChat]);
 
   useEffect(() => {
     if (usersToChat && !searched?.current) {
-      // setUsernamesData(usersToChat);
+      setUsernamesData(usersToChat);
     } else if (searchedUsersToChat && searched?.current) {
       setSearchedUsernames(searchedUsersToChat);
     }
@@ -182,11 +168,11 @@ const NewGroupChat = ({
               ) : (
                 <InfiniteScroll
                   dataLength={mainData?.length || 0}
-                  next={fetchMoreData}
-                  hasMore={searched.current ? pageData.searchedUserName.hasMoreData : pageData.allUserNames.hasMoreData}
+                  next={() => null}
+                  hasMore={false}
                   className="overflow_unset"
-                  loader={<CircularProgressLoader className={scss.list_loader} />}
-                  scrollableTarget="chat__message__forward__user__list"
+                  loader={<CircularProgressLoader />}
+                  scrollableTarget="chat__inbox__main__new__user__list"
                 >
                   {Array.isArray(mainData) && mainData.length > 0 ? mainData.map((userNameData: any) => (userNameData.id !== currentUserInfo.id && userNameData._id !== currentUserInfo.id ? (
                     <ForwardUser key={userNameData._id || userNameData.id} isGroup={false} selectedForwardMessageUser={selectedUsersGroup} name={userNameData.username || userNameData.fullName || ''} userId={userNameData._id || userNameData.id} handleUserSelect={handleUserSelect} />

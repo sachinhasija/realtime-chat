@@ -1,5 +1,4 @@
 import React from 'react';
-import noMessageLight from 'assets/images/no-message-light.svg';
 import noMessage from 'assets/images/no-message.png';
 import noMsgImg from 'assets/images/no_msg.svg';
 
@@ -22,7 +21,6 @@ const NoMessages = ({ dataPresent }: { dataPresent: boolean }) => (
       <div className={`no_data ${scss.no_message}`}>
         <figure className="no_img">
           <img src={noMessage} className="dark_theme_img" alt="No message" />
-          <img src={noMessageLight} className="light_theme_img" alt="No message" />
         </figure>
         <div>
           <span>

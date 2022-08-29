@@ -18,6 +18,7 @@ interface Props {
   roomSelected: string
   inboxData: Map<string, string> | null,
   roomsData: { [roomId: string]: Room; } | null
+  usersInDb: { [userId: string]: User } | null
   handleModalTypeChange: (type: string, data: { chatRoomId: string, chatId: string }) => void
   handleDeletedRoomId: (roomId: string) => void
   chatData: { [userId: string]: User } | null
@@ -25,7 +26,7 @@ interface Props {
 }
 
 const Inbox = ({
-  handleNewChat, currentUserInfo, inboxData, roomsData, chatData, roomSelected, handleDeletedRoomId, handleModalTypeChange,
+  handleNewChat, usersInDb, currentUserInfo, inboxData, roomsData, chatData, roomSelected, handleDeletedRoomId, handleModalTypeChange,
 }: Props) => {
   const [isNewChat, setIsNewChat] = useState('');
   const [searchedData, setSearchedData] = useState<Map<string, string> | null>(null);
@@ -36,7 +37,6 @@ const Inbox = ({
   };
 
   const handleInboxSearch = throttle((value) => {
-    //
     if (inboxData && chatData && value?.trim()) {
       const updatedInboxData = new Map();
       inboxData.forEach((val: string, key: string) => {
@@ -71,18 +71,6 @@ const Inbox = ({
                 placeholder="Search Contacts"
                 onChange={handleInboxSearch}
               />
-              {/* <ul className={scss.account_list}>
-                <li className={scss.business}>
-                  <button type="button" onClick={() => handleToastMessage('Under Development')} aria-label="Business messages">
-                    <FormattedMessage id="Messages.business" />
-                  </button>
-                </li>
-                <li className={scss.business}>
-                  <button type="button" onClick={() => handleToastMessage('Under Development')} aria-label="Investment messages">
-                    <FormattedMessage id="Messages.investment" />
-                  </button>
-                </li>
-              </ul> */}
               <ul className={scss.chat_list}>
                 {mainData && chatData && roomsData ? (
                   Array.from(mainData).map((inboxArray: string[]) => {
@@ -96,7 +84,7 @@ const Inbox = ({
                 ) : null}
               </ul>
             </>
-          ) : isNewChat === 'singleUser' ? <NewChat inboxData={inboxData} currentUserId={currentUserId} roomData={roomsData} chatData={chatData} toggleNewChat={toggleNewChat} handleNewChat={handleNewChat} /> : <NewGroupChat toggleNewChat={toggleNewChat} currentUserInfo={currentUserInfo} />}
+          ) : isNewChat === 'singleUser' ? <NewChat inboxData={inboxData} usersInDb={usersInDb} currentUserId={currentUserId} roomData={roomsData} chatData={chatData} toggleNewChat={toggleNewChat} handleNewChat={handleNewChat} /> : <NewGroupChat usersInDb={usersInDb} toggleNewChat={toggleNewChat} currentUserInfo={currentUserInfo} />}
         </div>
       </div>
     </>

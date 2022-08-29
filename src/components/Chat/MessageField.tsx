@@ -66,8 +66,7 @@ export default function MessageField({
   // image upload
   const [openFile, setOpenFile] = useState(false);
   const [openVideoFile, setOpenVideoFile] = useState(false);
-  const termsAccepeted = localStorage.getItem('site-terms');
-  const [showTerms, setShowTerms] = useState(termsAccepeted !== '1');
+  const [showTerms, setShowTerms] = useState(false);
   const [showModalType, setShowModalType] = useState('');
   const [thumbnail, setThumbnail] = useState<File | null>(null);
   const [currentFiles, setCurrentFiles] = useState<File[]>();
@@ -372,7 +371,7 @@ export default function MessageField({
             }}
             className={`basic_menu_container ${scss.add_media_menu}`}
           >
-            <MenuItem onClick={() => { if (showTerms) { handleClose(); setIsVideo(false); setShowModalType('terms'); } }}>
+            <MenuItem>
               {!showTerms ? (
                 <>
                   <figure className={classNames(scss.image_wrapper, scss.file_input_wrap)}>
@@ -408,7 +407,7 @@ export default function MessageField({
                     <img src={addPhotos} className="dark_hover_img" alt="" />
                     <img src={addPhotosDark} className="light_hover_img" alt="" />
                   </figure>
-                  Videos
+                  Photos
                 </>
               )}
             </MenuItem>

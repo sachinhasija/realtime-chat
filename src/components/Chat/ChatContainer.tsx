@@ -18,11 +18,13 @@ import UserProfile from './common/UserProfile';
 import GroupProfile from './common/GroupProfile';
 
 interface Props {
+  usersInDb: { [userId: string]: User } | null
+  currentUserInfo: User | null
   handleToastMessage: (message: string) => void
 }
 
 export default function ChatContainer(props: Props) {
-  const { handleToastMessage } = props;
+  const { usersInDb, currentUserInfo, handleToastMessage } = props;
   const [chatInfo, setChatInfo] = useState<NewChatData | null>(null);
   const [inboxData, setInboxData] = useState<null | Map<string, string>>(null);
   const [dataPresent, setDataPresent] = useState(false);
@@ -48,7 +50,7 @@ export default function ChatContainer(props: Props) {
   const [showContactDetails, setShowContactDetails] = useState(false);
   const [showGroupInfo, setShowGroupInfo] = useState(false);
 
-  const userData = useMemo(() => ({ _id: '', username: '' }), []);
+  const userData = useMemo(() => ({ _id: (currentUserInfo?.id) || '', username: (currentUserInfo?.name) || '' }), [currentUserInfo]);
 
   const selectedRoomData = chatInfo?.roomId && roomData?.[chatInfo?.roomId] ? roomData?.[chatInfo?.roomId] : null;
 
@@ -392,11 +394,11 @@ export default function ChatContainer(props: Props) {
   return (
     <div className={classNames('custom_container', { [scss.carousel_modal_zindex]: mediaOpen })}>
       <div className={`flex_row ${scss.chat_wrapper}`}>
-        <Inbox handleNewChat={handleNewChat} handleModalTypeChange={handleModalTypeChange} handleDeletedRoomId={handleDeletedRoomId} roomSelected={chatInfo?.roomId ?? ''} inboxData={inboxData} roomsData={roomData} chatData={chatData} currentUserInfo={{ name: userData?.username ?? '', id: userData?._id ?? '' }} />
-        <MessagesContainer dataPresent={dataPresent} removeListeners={false} totalGroupsData={totalGroupsData} handleDeletedRoomId={handleDeletedRoomId} deletedRoomId={deletedRoomId} handleToastMessage={handleToastMessage} blockedData={blockedData} selectedUserBlockedData={selectedUserBlockedData} handleContactToggleMain={handleContactToggle} handleGroupInfoToggle={handleGroupInfoToggle} showContactDetails={showContactDetails} showGroupInfo={showGroupInfo} currentUserInfo={{ name: userData?.username ?? '', id: userData?._id ?? '' }} chatData={chatData} chatInfo={chatInfo} roomData={selectedRoomData} onRoomMessageReset={onRoomMessageReset} resetRoomMessages={resetRoomMessages} />
+        <Inbox handleNewChat={handleNewChat} usersInDb={usersInDb} handleModalTypeChange={handleModalTypeChange} handleDeletedRoomId={handleDeletedRoomId} roomSelected={chatInfo?.roomId ?? ''} inboxData={inboxData} roomsData={roomData} chatData={chatData} currentUserInfo={{ name: userData?.username ?? '', id: userData?._id ?? '' }} />
+        <MessagesContainer usersInDb={usersInDb} dataPresent={dataPresent} removeListeners={false} totalGroupsData={totalGroupsData} handleDeletedRoomId={handleDeletedRoomId} deletedRoomId={deletedRoomId} handleToastMessage={handleToastMessage} blockedData={blockedData} selectedUserBlockedData={selectedUserBlockedData} handleContactToggleMain={handleContactToggle} handleGroupInfoToggle={handleGroupInfoToggle} showContactDetails={showContactDetails} showGroupInfo={showGroupInfo} currentUserInfo={{ name: userData?.username ?? '', id: userData?._id ?? '' }} chatData={chatData} chatInfo={chatInfo} roomData={selectedRoomData} onRoomMessageReset={onRoomMessageReset} resetRoomMessages={resetRoomMessages} />
         {chatInfo && userData._id ? showContactDetails ? (
           <UserProfile handleNewChat={handleNewChat} handleDeletedRoomId={handleDeletedRoomId} handleContactToggle={handleContactToggle} blockedData={blockedData?.[chatInfo.chatId] ?? null} currentUserId={userData._id} handleMediaOpen={handleMediaOpen} chatInfo={chatInfo} />
-        ) : showGroupInfo && selectedRoomData ? <GroupProfile handleMediaOpen={handleMediaOpen} handleDeletedRoomId={handleDeletedRoomId} roomData={selectedRoomData} chatData={chatData} currentUserInfo={{ name: userData?.username ?? '', id: userData?._id ?? '' }} onRoomMessageReset={onRoomMessageReset} chatInfo={chatInfo} handleGroupInfoToggle={handleGroupInfoToggle} handleNewChat={handleNewChat} /> : null : null}
+        ) : showGroupInfo && selectedRoomData ? <GroupProfile usersInDb={usersInDb} handleMediaOpen={handleMediaOpen} handleDeletedRoomId={handleDeletedRoomId} roomData={selectedRoomData} chatData={chatData} currentUserInfo={{ name: userData?.username ?? '', id: userData?._id ?? '' }} onRoomMessageReset={onRoomMessageReset} chatInfo={chatInfo} handleGroupInfoToggle={handleGroupInfoToggle} handleNewChat={handleNewChat} /> : null : null}
       </div>
       <ModalComponent
         id="chat-main-modal"

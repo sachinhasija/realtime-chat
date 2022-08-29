@@ -42,6 +42,7 @@ interface Props {
   roomData: Room
   currentUserInfo: { id: string, name: string },
   chatData: { [userId: string]: User } | null
+  usersInDb: { [userId: string]: User } | null
   onRoomMessageReset: (roomId: string) => void,
   handleDeletedRoomId: (roomId: string) => void
   handleNewChat: (data: null) => null
@@ -50,10 +51,8 @@ interface Props {
 }
 
 const GroupProfile = ({
-  chatInfo, currentUserInfo, chatData, handleGroupInfoToggle, handleMediaOpen, roomData, handleNewChat, handleDeletedRoomId, onRoomMessageReset,
+  chatInfo, currentUserInfo, chatData, handleGroupInfoToggle, handleMediaOpen, roomData, handleNewChat, handleDeletedRoomId, onRoomMessageReset, usersInDb,
 }: Props) => {
-  const usersToChat: User[] = [];
-  const searchedUsersToChat: User[] = [];
   const [editGroup, setEditGroup] = useState(false);
   const data = chatData?.[chatInfo?.roomId ?? ''];
   const [media, setMedia] = useState<Map<string, MessageData> | null>(null);
@@ -68,6 +67,14 @@ const GroupProfile = ({
   const [searchedUsernames, setSearchedUsernames] = useState<null | User[]>(null);
   const [selectedParticipant, setSelectedParticipant] = useState<ChatRoomMemberData | null>(null);
   const mediaUnsubscribeEvent = useRef<Unsubscribe | null>(null);
+
+  const usersToChat: User[] = useMemo(() => {
+    return usersInDb ? Object.values(usersInDb) : [];
+  }, [usersInDb]);
+
+  const searchedUsersToChat: User[] = useMemo(() => {
+    return usersInDb ? Object.values(usersInDb) : [];
+  }, [usersInDb]);
 
   const { participants, firstMember, currentAdminId } = useMemo(() => {
     const members = roomData?.chatRoomMembers ? Object.values(roomData?.chatRoomMembers) : [];
@@ -267,30 +274,6 @@ const GroupProfile = ({
       return (
         <MediaViewer selectedIndex={selectedIndex} data={media ? Array.from(media) : []} />
       );
-    } if (modalType === 'reportUser') {
-      return (
-        <div className="report_user_modal">
-          <span className="xs_title m_title">
-            Report
-          </span>
-          <span className="xs_title report_title">
-            Why are you reporting this?
-          </span>
-          {/* <ReportForm reasons={profileReasons} handleFormSubmit={(data: { reason: string, reasonDescription: string }) => handleUserReport(data)} actionType="Report" reportChannelLoading={reportingUser} errorMsg={typeof reportUserError?.message === 'string' ? reportUserError.message : ''} handleModalClose={handleModalClose} /> */}
-        </div>
-      );
-    } if (modalType === 'reportSuccess') {
-      return (
-        <>
-          <div className="success_popup">
-            <span className="sub_title">Thanks for letting us know</span>
-            <p className="common_para">Your feedback is important in keeping the community safe.</p>
-            <button className="fill_red_btn btn-effect only_child" onClick={handleModalClose} aria-label="Close">
-              ok
-            </button>
-          </div>
-        </>
-      );
     } if (modalType === 'addParticipants') {
       return (
         <div>
@@ -471,14 +454,6 @@ const GroupProfile = ({
       setSearchedUsernames(searchedUsersToChat);
     }
   }, [usersToChat, searchedUsersToChat]);
-
-  //   useEffect(() => {
-  //     if (reportUserSuccess) {
-  //       setModalType('reportSuccess');
-  //       setShowModal(true);
-  //       dispatch(reportUserDataClear());
-  //     }
-  //   }, [reportUserSuccess, reportUserDataClear, dispatch]);
 
   return (
     <div className={`sidenav ${scss.contact_nav} ${expandMedia ? scss.media_nav : ''}`}>
@@ -718,7 +693,7 @@ const GroupProfile = ({
         className={modalType === 'media' ? 'chat_media_modal' : ''}
         onClose={handleModalClose}
         onManageDisableScrolling={() => null}
-        showCloseBtn={!(modalType === 'block' || modalType === 'reportSuccess' || modalType === 'reportUser' || modalType === 'clearConversation' || modalType === 'removeUser' || modalType === 'leaveGroup')}
+        showCloseBtn={!(modalType === 'block' || modalType === 'clearConversation' || modalType === 'removeUser' || modalType === 'leaveGroup')}
       >
         <div className="chat_media_inner">
           {modalContent()}

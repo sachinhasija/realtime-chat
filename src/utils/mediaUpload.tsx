@@ -1,25 +1,16 @@
 /* eslint-disable no-await-in-loop */
-import ReactS3Client from 'react-aws-s3-typescript';
+import { storage } from '../firebase.js';
+import { ref, uploadBytesResumable, getDownloadURL, uploadBytes } from "firebase/storage";
 import MessagesModel from 'firestore/messagesModel';
 import { Room, UpdateRoom } from 'interfaces/firestore';
 // import { sendNotification } from 'utils/notifications';
 import RoomModel from 'firestore/roomModel';
 import placeholderImage from 'assets/images/image-placeholder.svg';
 
-const s3Config = {
-  bucketName: process.env.REACT_APP_S3_BUCKET_NAME || '',
-  dirName: 'Avatus',
-  region: 'us-east-1' || '',
-  accessKeyId: process.env.REACT_APP_S3_BUCKET_ACCESS_KEY || '',
-  secretAccessKey: process.env.REACT_APP_S3_BUCKET_SECRET_ACCESS_KEY || '',
-  s3Url: process.env.REACT_APP_S3_BUCKET_URL || '',
-};
-
 const mediaUploader = async (files: File[], data: { roomId: string, receiverId: string, senderId: string, senderName: string, senderImageURL?: string, unreadCount: number, documentExists: boolean, }, thumbnail?: File, deviceTokens?: { [deviceToken: string]: string; }, isGroup = false, roomDataMain?: null | Room) => {
   if (files && files.length > 0) {
     try {
       const promises: Promise<string>[] = [];
-      const s3 = new ReactS3Client(s3Config);
       const MessagesModelObject = new MessagesModel();
       const roomModelObject = new RoomModel();
 
@@ -29,15 +20,6 @@ const mediaUploader = async (files: File[], data: { roomId: string, receiverId: 
         const file = files[i];
         const fileName = `${+new Date()}_${file.name}`;
         const thumbnailName = thumbnail ? `${+new Date()}_${thumbnail.name}` : '';
-
-        const fileNameWithoutSpecialChars = fileName.replace(
-          /[`~!@#$%^&*()_|+\-=?;:\s'",.<>\\{\\}\\[\]\\\\/]/gi,
-          '',
-        );
-        const thumbnailNameWithoutSpecialChars = thumbnailName.replace(
-          /[`~!@#$%^&*()_|+\-=?;:\s'",.<>\\{\\}\\[\]\\\\/]/gi,
-          '',
-        );
 
         const localUrl = thumbnail ? URL.createObjectURL(thumbnail) : URL.createObjectURL(file);
 
@@ -62,7 +44,7 @@ const mediaUploader = async (files: File[], data: { roomId: string, receiverId: 
         unreadCountLocal += 1;
         const personalCount = unreadCountLocal;
         const {
-          receiverId, roomId, senderName, senderImageURL,
+          receiverId, roomId
         } = data;
         const roomData: UpdateRoom = {
           lastMessage: messageData,
@@ -72,98 +54,116 @@ const mediaUploader = async (files: File[], data: { roomId: string, receiverId: 
 
         if (file.name.match(/.(jpg|jpeg|png|mp4|3gpp|quicktime|x-m4v)$/i) || file.type.match(/.(jpg|jpeg|png|mp4|3gpp|quicktime|x-m4v)$/i)) {
           promises.push(new Promise((resolve, reject) => {
-            s3.uploadFile(thumbnail || file, thumbnail ? thumbnailNameWithoutSpecialChars : fileNameWithoutSpecialChars)
-              .then((response: any) => {
-                if (thumbnail) {
-                  s3.uploadFile(file, fileNameWithoutSpecialChars)
-                    .then((resp: any) => {
-                      MessagesModelObject.updateMessage(roomId, messageId, { localMedia: '', mediaUrl: resp.location, thumbnail: response.location });
-                      MessagesModelObject.addMedia(roomId, messageId, {
-                        ...messageData, messageId, localMedia: '', mediaUrl: resp.location, thumbnail: response.location,
-                      });
-                      if (deviceTokens) {
-                        // const tokens = Object.keys(deviceTokens);
-                        // const notificationData : NotificationMain = {
-                        //   title: senderName ?? 'Video Received',
-                        //   content: 'sent a video',
-                        //   chatData: { ...messageData, messageId },
-                        //   image: response.location,
-                        //   devices: [],
-                        // };
-                        // tokens.forEach((token: string) => {
-                        //   if (token && (deviceTokens[token] === '1' || deviceTokens[token] === '2' || deviceTokens[token] === '3')) {
-                        //     notificationData.devices.push({ deviceToken: token, deviceType: deviceTokens[token] });
-                        //   }
-                        // });
-                        // if (notificationData.devices.length > 0) {
-                        //   sendNotification(notificationData);
-                        // }
-                      }
-                      if (!isGroup && receiverId && roomId) {
-                        roomData.chatRoomMembers = {
-                          [receiverId]: {
-                            unreadCount: personalCount + 1,
-                          },
-                        };
-                      } else if (isGroup && roomId && chatRoomMembersData) {
-                        roomData.chatRoomMembers = {};
-                        chatRoomMembersData.forEach((member) => {
-                          if (member.memberId && member.memberId !== messageData.senderId && roomData.chatRoomMembers) {
-                            roomData.chatRoomMembers[member.memberId] = {
-                              unreadCount: member.unreadCount ? member.unreadCount + 1 : 1,
+            const imageRef = ref(storage, `${thumbnail ? `thumbnail/${thumbnailName}` : `media/${fileName}`}`)
+            // uploadBytes(imageRef, files[0]).catch((err) => console.log(err))
+            const uploadTask = uploadBytesResumable(imageRef, thumbnail || file);
+            uploadTask.on('state_changed',
+              (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done');
+                switch (snapshot.state) {
+                  case 'paused':
+                    console.log('Upload is paused');
+                    break;
+                  case 'running':
+                    console.log('Upload is running');
+                    break;
+                }
+              },
+              (error) => {
+                switch (error.code) {
+                  case 'storage/unauthorized':
+                    break;
+                  case 'storage/canceled':
+                    break;
+                  case 'storage/unknown':
+                    break;
+                }
+              },
+              () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((thumbnailUrl) => {
+                  console.log("downloadURL", thumbnailUrl)
+                  if (thumbnail) {
+                    const imageRef = ref(storage, `media/${fileName}`)
+                    const uploadTask = uploadBytesResumable(imageRef, file);
+                    uploadTask.on('state_changed',
+                      (snapshot) => {
+                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        console.log('Upload is ' + progress + '% done');
+                        switch (snapshot.state) {
+                          case 'paused':
+                            console.log('Upload is paused');
+                            break;
+                          case 'running':
+                            console.log('Upload is running');
+                            break;
+                        }
+                      },
+                      (error) => {
+                        switch (error.code) {
+                          case 'storage/unauthorized':
+                            break;
+                          case 'storage/canceled':
+                            break;
+                          case 'storage/unknown':
+                            break;
+                        }
+                      },
+                      () => {
+                        getDownloadURL(uploadTask.snapshot.ref).then((videodownloadURL) => {
+                          console.log("videodownloadURL", videodownloadURL);
+                          MessagesModelObject.updateMessage(roomId, messageId, { localMedia: '', mediaUrl: videodownloadURL, thumbnail: thumbnailUrl });
+                          MessagesModelObject.addMedia(roomId, messageId, {
+                            ...messageData, messageId, localMedia: '', mediaUrl: videodownloadURL, thumbnail: thumbnailUrl,
+                          });
+                          if (!isGroup && receiverId && roomId) {
+                            roomData.chatRoomMembers = {
+                              [receiverId]: {
+                                unreadCount: personalCount + 1,
+                              },
                             };
+                          } else if (isGroup && roomId && chatRoomMembersData) {
+                            roomData.chatRoomMembers = {};
+                            chatRoomMembersData.forEach((member) => {
+                              if (member.memberId && member.memberId !== messageData.senderId && roomData.chatRoomMembers) {
+                                roomData.chatRoomMembers[member.memberId] = {
+                                  unreadCount: member.unreadCount ? member.unreadCount + 1 : 1,
+                                };
+                              }
+                            });
                           }
+                          roomModelObject.updateRoom(roomId, roomData);
+                          resolve(JSON.stringify({ [messageId]: videodownloadURL }));
                         });
                       }
-                      roomModelObject.updateRoom(roomId, roomData);
-                      resolve(JSON.stringify({ [messageId]: response }));
+                    );
+                  } else {
+                    MessagesModelObject.updateMessage(roomId, messageId, { localMedia: '', mediaUrl: thumbnailUrl });
+                    MessagesModelObject.addMedia(roomId, messageId, {
+                      ...messageData, messageId, localMedia: '', mediaUrl: thumbnailUrl,
                     });
-                } else {
-                  MessagesModelObject.updateMessage(roomId, messageId, { localMedia: '', mediaUrl: response.location });
-                  MessagesModelObject.addMedia(roomId, messageId, {
-                    ...messageData, messageId, localMedia: '', mediaUrl: response.location,
-                  });
-                  if (deviceTokens) {
-                    // const tokens = Object.keys(deviceTokens);
-                    // const notificationData : NotificationMain = {
-                    //   title: senderName ?? 'Image Received',
-                    //   content: 'sent an photo',
-                    //   chatData: { ...messageData, messageId },
-                    //   image: response.location,
-                    //   devices: [],
-                    // };
-                    // tokens.forEach((token: string) => {
-                    //   if (token && (deviceTokens[token] === '1' || deviceTokens[token] === '2' || deviceTokens[token] === '3')) {
-                    //     notificationData.devices.push({ deviceToken: token, deviceType: deviceTokens[token] });
-                    //   }
-                    // });
-                    // if (notificationData.devices.length > 0) {
-                    //   sendNotification(notificationData);
-                    // }
+                    if (!isGroup && receiverId && roomId) {
+                      roomData.chatRoomMembers = {
+                        [receiverId]: {
+                          unreadCount: personalCount + 1,
+                        },
+                      };
+                    } else if (isGroup && roomId && chatRoomMembersData) {
+                      roomData.chatRoomMembers = {};
+                      chatRoomMembersData.forEach((member) => {
+                        if (member.memberId && member.memberId !== messageData.senderId && roomData.chatRoomMembers) {
+                          roomData.chatRoomMembers[member.memberId] = {
+                            unreadCount: member.unreadCount ? member.unreadCount + 1 : 1,
+                          };
+                        }
+                      });
+                    }
+                    roomModelObject.updateRoom(roomId, roomData);
+                    resolve(JSON.stringify({ [messageId]: thumbnailUrl }));
                   }
-                  if (!isGroup && receiverId && roomId) {
-                    roomData.chatRoomMembers = {
-                      [receiverId]: {
-                        unreadCount: personalCount + 1,
-                      },
-                    };
-                  } else if (isGroup && roomId && chatRoomMembersData) {
-                    roomData.chatRoomMembers = {};
-                    chatRoomMembersData.forEach((member) => {
-                      if (member.memberId && member.memberId !== messageData.senderId && roomData.chatRoomMembers) {
-                        roomData.chatRoomMembers[member.memberId] = {
-                          unreadCount: member.unreadCount ? member.unreadCount + 1 : 1,
-                        };
-                      }
-                    });
-                  }
-                  roomModelObject.updateRoom(roomId, roomData);
-                  resolve(JSON.stringify({ [messageId]: response }));
-                }
-              })
-              .catch((error: any) => {
-                reject(error);
-              });
+                });
+              }
+            );
           }));
         }
       }
@@ -251,4 +251,5 @@ const getVideoCover = (file: File, seekTo = 0.0): Promise<File> => new Promise((
     });
   });
 });
+
 export { mediaUploader, getVideoCover };

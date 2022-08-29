@@ -364,20 +364,6 @@ const UserProfile = ({
               ) : null}
               {chatInfo.chatId && chatInfo.roomId ? (
                 <li>
-                  <button
-                    type="button"
-                    className="button"
-                    onClick={() => {
-                      setModalType('reportUser');
-                      setShowModal(true);
-                    }}
-                  >
-                    Report
-                  </button>
-                </li>
-              ) : null}
-              {chatInfo.chatId && chatInfo.roomId ? (
-                <li>
                   <button type="button" className="button" onClick={() => handleChatDelete(chatInfo.roomId ?? '', chatInfo.chatId)}>
                     Delete
                   </button>
@@ -394,7 +380,7 @@ const UserProfile = ({
         className={modalType === 'media' ? 'chat_media_modal' : ''}
         onClose={handleModalClose}
         onManageDisableScrolling={() => null}
-        showCloseBtn={!(modalType === 'block' || modalType === 'reportSuccess' || modalType === 'reportUser' || modalType === 'blockSuccess')}
+        showCloseBtn={!(modalType === 'block' || modalType === 'blockSuccess')}
       >
         <div className="chat_media_inner">
           {modalContent()}

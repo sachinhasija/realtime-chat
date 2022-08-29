@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import SearchBar from 'components/SearchBar';
 import {
   Room, NewChatData, User,
@@ -19,6 +19,7 @@ interface PeopleData {
 
 interface Props {
   currentUserId: string
+  usersInDb: { [userId: string]: User } | null
   toggleNewChat: (type: string) => void
   handleNewChat: (data: NewChatData) => null
   inboxData: Map<string, string> | null,
@@ -27,43 +28,30 @@ interface Props {
 }
 
 const NewChat = ({
-  currentUserId, toggleNewChat, handleNewChat, inboxData, roomData, chatData,
+  currentUserId, usersInDb, toggleNewChat, handleNewChat, inboxData, roomData, chatData,
 }: Props) => {
-  const usersToChat: User[] = [];
-  const searchedUsersToChat: User[] = [];
   const searched = useRef('');
-  const [pageData, setPageData] = useState({ allUserNames: { page: 1, hasMoreData: false }, searchedUserName: { page: 1, hasMoreData: false } });
   const [usernamesData, setUsernamesData] = useState<null | User[]>(null);
   const [searchedUsernames, setSearchedUsernames] = useState<null | User[]>(null);
 
-  const mainData = searched?.current ? searchedUsernames : usernamesData;
+  const usersToChat: User[] = useMemo(() => {
+    return usersInDb ? Object.values(usersInDb) : [];
+  }, [usersInDb]);
 
-  const fetchMoreData = (limit?: number, pageNumber?: number) => {
-    const payload: PeopleData = { limit: limit ?? 30 };
-    if (searched.current) {
-      payload.page = pageNumber || pageData.searchedUserName.page;
-      payload.search = searched.current;
-    } else {
-      payload.page = pageNumber || pageData.allUserNames.page;
-    }
-    return null;
-  };
+  const searchedUsersToChat: User[] = useMemo(() => {
+    return usersInDb ? Object.values(usersInDb) : [];
+  }, [usersInDb]);
+
+  const mainData = searched?.current ? searchedUsernames : usernamesData;
 
   const handleUserSearch = debounce((search: string) => {
     searched.current = search;
-    // dispatch(resetChatSearchData());
-    fetchMoreData(30, 1);
   }, 300);
 
-  useEffect(() => {
-    if (!usersToChat) {
-      fetchMoreData(30);
-    }
-  }, [usersToChat]);
 
   useEffect(() => {
     if (usersToChat && !searched?.current) {
-      // setUsernamesData(usersToChat);
+      setUsernamesData(usersToChat);
     } else if (searchedUsersToChat && searched?.current) {
       setSearchedUsernames(searchedUsersToChat);
     }
@@ -97,19 +85,19 @@ const NewChat = ({
         </li>
       </ul>
       <ul className={scss.contact_list} id="chat__inbox__main__new__user__list">
-        {(!searchedUsernames || searchedUsernames?.length === 0) || (!usernamesData || usernamesData?.length === 0) ? (
+        {(!mainData || mainData.length === 0) ? (
           <CircularProgressLoader className={scss.list_loader} />
         ) : (
           <InfiniteScroll
             dataLength={mainData?.length || 0}
-            next={() => fetchMoreData(30)}
-            hasMore={searched.current ? pageData.searchedUserName.hasMoreData : pageData.allUserNames.hasMoreData}
+            next={() => null}
+            hasMore={false}
             className="overflow_unset"
             loader={<CircularProgressLoader />}
             scrollableTarget="chat__inbox__main__new__user__list"
           >
-            {Array.isArray(mainData) && mainData.length > 0 ? mainData.map((userNameData: any) => (userNameData.id !== currentUserId && userNameData._id !== currentUserId ? (
-              <NewChatUserCard key={userNameData._id || userNameData.id} inboxData={inboxData} roomData={roomData} chatData={chatData} id={userNameData._id || userNameData.id} name={userNameData.username || userNameData.fullName || ''} handleNewChat={handleNewChat} img="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" />
+            {Array.isArray(mainData) && mainData.length > 0 ? mainData.map((userNameData: User) => (userNameData.id !== currentUserId ? (
+              <NewChatUserCard key={userNameData.id} inboxData={inboxData} roomData={roomData} chatData={chatData} id={userNameData.id} name={userNameData.name} handleNewChat={handleNewChat} img="" />
             ) : null)) : null}
           </InfiniteScroll>
         )}
