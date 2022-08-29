@@ -5,6 +5,7 @@ import React, {
 } from 'react';
 import FieldTextInput from 'components/FieldTextInput';
 import DotsLoader from 'components/Loaders/DotsLoader';
+import { storage } from '../../firebase.js';
 import ImageUpload from 'components/ImageUpload';
 import { Menu, MenuItem, Button as MenuButton } from '@mui/material';
 import classNames from 'classnames';
@@ -13,12 +14,11 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import addImg from 'assets/images/add.svg';
 import takePhoto from 'assets/images/take-a-photo.svg';
-import takePhotoDark from 'assets/images/take-a-photo-black.svg';
 import choosePhoto from 'assets/images/choose-a-file.svg';
-import choosePhotoDark from 'assets/images/choose-a-file-black.svg';
 import placeholder from 'assets/images/image-placeholder-black.svg';
 import common from '../../components/Chat/Chat.module.scss';
 import scss from './NewGroupChatForm.module.scss';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 
 interface Props {
   defaultData?: { name: string, image: string }
@@ -32,30 +32,21 @@ interface Data {
   groupName: string
 }
 
-enum ButtonTypes {
-  'button',
-  'submit',
-  'reset',
-  undefined
-}
-
 const NewGroupChatForm: React.FC<Props> = (props: Props) => {
   const {
     defaultData, edit, handleFormSubmit, handleBack,
   } = props;
 
   const [errorMsg, setErrorMsg] = useState('');
+  const [loader, setLoader] = useState(false);
   const [fileError, setFileError] = useState('');
   const [anchorEl, setAnchorEl] = useState(null);
   const [currentFile, setCurrentFile] = useState<File | null>(null);
   const [currentImage, setCurrentImage] = useState(defaultData?.image ?? '');
-  const [createGroupData, setCreateGroupData] = useState<any>({});
   const [textareaLength, setTextareaLength] = useState(defaultData?.name?.length ?? 0);
 
   // image upload
   const [openFile, setOpenFile] = useState(false);
-  const termsAccepeted = localStorage.getItem('site-terms');
-  const [showTerms, setShowTerms] = useState(termsAccepeted !== '1');
   const [showModalType, setShowModalType] = useState('');
   const [currentFiles, setCurrentFiles] = useState<File[]>();
   const [fileNode, setFileNode] = useState<null | HTMLInputElement>(null);
@@ -80,7 +71,7 @@ const NewGroupChatForm: React.FC<Props> = (props: Props) => {
     setAnchorEl(null);
   };
 
-  const onImageUploadHandler = async (file: any) => {
+  const onImageUploadHandler = async (file: any, values: any) => {
     if (file) {
       try {
         const fileName = `${+new Date()}_${file.name}`;
@@ -90,7 +81,39 @@ const NewGroupChatForm: React.FC<Props> = (props: Props) => {
         );
 
         if (file.name.match(/.(jpg|jpeg|png|gif)$/i) || file.type.match(/.(jpg|jpeg|png|gif)$/i)) {
-          // dispatch(createChannelImageUpload({ file, filename: fileNameWithoutSpecialChars }));
+          const imageRef = ref(storage, `${`media/${fileNameWithoutSpecialChars}`}`)
+          const uploadTask = uploadBytesResumable(imageRef, file);
+          uploadTask.on('state_changed',
+            (snapshot) => {
+              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log('Upload is ' + progress + '% done');
+              switch (snapshot.state) {
+                case 'paused':
+                  console.log('Upload is paused');
+                  break;
+                case 'running':
+                  console.log('Upload is running');
+                  break;
+              }
+            },
+            (error) => {
+              switch (error.code) {
+                case 'storage/unauthorized':
+                  break;
+                case 'storage/canceled':
+                  break;
+                case 'storage/unknown':
+                  break;
+              }
+            },
+            () => {
+              getDownloadURL(uploadTask.snapshot.ref).then((thumbnailUrl) => {
+                const data = { ...values };
+                data.channelIconImage = thumbnailUrl;
+                handleFormSubmit(data);
+                setLoader(false);
+              })
+            })
         } else {
           setFileError('File is not a valid image. Image format allowed - jpg | jpeg | png | gif');
         }
@@ -106,9 +129,9 @@ const NewGroupChatForm: React.FC<Props> = (props: Props) => {
 
   const mainFormSubmit = (values: any) => {
     if (values) {
-      setCreateGroupData(values);
       if (currentImage !== defaultData?.image) {
-        onImageUploadHandler(currentFile);
+        setLoader(true);
+        onImageUploadHandler(currentFile, values);
       } else {
         handleFormSubmit(values);
       }
@@ -126,17 +149,6 @@ const NewGroupChatForm: React.FC<Props> = (props: Props) => {
       setCurrentImage(image);
     }
   }, [currentImage]);
-
-  // useEffect(() => {
-  //   if (imageUploadSuccess === true && imageUploadResponse) {
-  //     const data = { ...createGroupData };
-  //     data.channelIconImage = imageUploadResponse?.location?.replace('.com//', '.com/');
-  //     setCreateGroupData({ ...createGroupData, channelIconImage: data.channelIconImage });
-  //     dispatch(scheduleEventClearData());
-  //     handleFormSubmit(data);
-  //     dispatch(clearChannelData());
-  //   }
-  // }, [imageUploadSuccess, imageUploadResponse, dispatch]);
 
   useEffect(() => {
     if (fileNode && typeof fileNode.click === 'function' && openFile) {
@@ -200,43 +212,29 @@ const NewGroupChatForm: React.FC<Props> = (props: Props) => {
                   }}
                   >
                     <img src={takePhoto} className="dark_hover_img" alt="camera" />
-                    <img src={takePhotoDark} className="light_hover_img" alt="camera" />
                     <button type="button" className="btn pointer">
                       Take Photo
                     </button>
                   </MenuItem>
-                  <MenuItem onClick={() => { if (showTerms) { handleClose(); setShowModalType('terms'); } }}>
-                    {!showTerms ? (
-                      <>
-                        <label htmlFor="channelIconImage" className={scss.browse}>
-                          <img src={choosePhoto} className="dark_hover_img" alt="browse" />
-                          <img src={choosePhotoDark} className="light_hover_img" alt="browse" />
-                          Upload
-                        </label>
-                        <input
-                          id="channelIconImage"
-                          type="file"
-                          accept="image/*"
-                          className="hide"
-                          ref={onFileRefChange}
-                          onChange={(e: any) => {
-                            const files = e.target?.files && Array.from(e.target.files);
-                            setCurrentFiles(files);
-                            handleClose();
-                          }}
-                        />
-                      </>
-                    ) : (
-                      <>
+                  <MenuItem>
+                    <>
+                      <label htmlFor="channelIconImage" className={scss.browse}>
                         <img src={choosePhoto} className="dark_hover_img" alt="browse" />
-                        <img src={choosePhotoDark} className="light_hover_img" alt="browse" />
-                        <label>
-                          <button type="button">
-                            Upload
-                          </button>
-                        </label>
-                      </>
-                    )}
+                        Upload
+                      </label>
+                      <input
+                        id="channelIconImage"
+                        type="file"
+                        accept="image/*"
+                        className="hide"
+                        ref={onFileRefChange}
+                        onChange={(e: any) => {
+                          const files = e.target?.files && Array.from(e.target.files);
+                          setCurrentFiles(files);
+                          handleClose();
+                        }}
+                      />
+                    </>
                   </MenuItem>
                 </Menu>
               </figure>
@@ -270,7 +268,7 @@ const NewGroupChatForm: React.FC<Props> = (props: Props) => {
               </div>
 
               <div className="form_field text-center">
-                <button type='submit' disabled={!formProps.formState.isValid} className={classNames('fill_red_btn', 'btn-effect', scss.btn_create,)}>{edit ? 'Save' : 'Create'}</button>
+                <button type='submit' disabled={!formProps.formState.isValid} className={classNames('fill_red_btn', 'btn-effect', scss.btn_create,)}>{loader ? <DotsLoader /> : edit ? 'Save' : 'Create'}</button>
               </div>
             </form>
             <ImageUpload
@@ -293,7 +291,6 @@ const NewGroupChatForm: React.FC<Props> = (props: Props) => {
                 if (buttonRef && buttonRef.current) {
                   buttonRef.current.click();
                   setOpenFile(true);
-                  setShowTerms(false);
                   localStorage.setItem('site-terms', '1');
                   setShowModalType('');
                 }

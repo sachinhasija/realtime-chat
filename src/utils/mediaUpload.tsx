@@ -82,7 +82,6 @@ const mediaUploader = async (files: File[], data: { roomId: string, receiverId: 
               },
               () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((thumbnailUrl) => {
-                  console.log("downloadURL", thumbnailUrl)
                   if (thumbnail) {
                     const imageRef = ref(storage, `media/${fileName}`)
                     const uploadTask = uploadBytesResumable(imageRef, file);
@@ -111,7 +110,6 @@ const mediaUploader = async (files: File[], data: { roomId: string, receiverId: 
                       },
                       () => {
                         getDownloadURL(uploadTask.snapshot.ref).then((videodownloadURL) => {
-                          console.log("videodownloadURL", videodownloadURL);
                           MessagesModelObject.updateMessage(roomId, messageId, { localMedia: '', mediaUrl: videodownloadURL, thumbnail: thumbnailUrl });
                           MessagesModelObject.addMedia(roomId, messageId, {
                             ...messageData, messageId, localMedia: '', mediaUrl: videodownloadURL, thumbnail: thumbnailUrl,

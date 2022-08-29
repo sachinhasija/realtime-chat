@@ -104,16 +104,8 @@ const NewGroupChat = ({
   };
 
   useEffect(() => {
-    if (searchedUsersToChat && searched?.current) {
-      setSearchedUsernames(searchedUsersToChat);
-    }
-  }, [usersToChat, searchedUsersToChat]);
-
-  useEffect(() => {
     if (usersToChat && !searched?.current) {
       setUsernamesData(usersToChat);
-    } else if (searchedUsersToChat && searched?.current) {
-      setSearchedUsernames(searchedUsersToChat);
     }
   }, [usersToChat, searchedUsersToChat]);
 
@@ -163,7 +155,7 @@ const NewGroupChat = ({
               </>
             ) : null}
             <ul className={classNames(scss.contact_list, scss.group_list, forwardUser.forward_user_list)} id="chat__message__forward__user__list">
-              {((!searchedUsernames || searchedUsernames?.length === 0)) || ((!usernamesData || usernamesData?.length === 0)) ? (
+              {((!usernamesData || usernamesData?.length === 0)) && !searched.current ? (
                 <CircularProgressLoader className={scss.list_loader} />
               ) : (
                 <InfiniteScroll
@@ -174,8 +166,8 @@ const NewGroupChat = ({
                   loader={<CircularProgressLoader />}
                   scrollableTarget="chat__inbox__main__new__user__list"
                 >
-                  {Array.isArray(mainData) && mainData.length > 0 ? mainData.map((userNameData: any) => (userNameData.id !== currentUserInfo.id && userNameData._id !== currentUserInfo.id ? (
-                    <ForwardUser key={userNameData._id || userNameData.id} isGroup={false} selectedForwardMessageUser={selectedUsersGroup} name={userNameData.username || userNameData.fullName || ''} userId={userNameData._id || userNameData.id} handleUserSelect={handleUserSelect} />
+                  {Array.isArray(mainData) && mainData.length > 0 ? mainData.map((userNameData: User) => (userNameData.id !== currentUserInfo.id ? (
+                    <ForwardUser key={userNameData.id} isGroup={false} selectedForwardMessageUser={selectedUsersGroup} name={userNameData.name || ''} userId={userNameData.id} handleUserSelect={handleUserSelect} />
                   ) : null)) : null}
                 </InfiniteScroll>
               )}

@@ -139,20 +139,20 @@ const GroupProfile = ({
     setExpandMedia(value);
   };
 
-  const fetchMoreData = (limit?: number, pageNumber?: number) => {
-    const payload: PeopleData = { limit: limit ?? 30 };
-    if (searched.current) {
-      payload.page = pageNumber || pageData.searchedUserName.page;
-      payload.search = searched.current;
-    } else {
-      payload.page = pageNumber || pageData.allUserNames.page;
-    }
-    return null;
-  };
-
   const handleUserSearch = debounce((search: string) => {
-    searched.current = search;
-    fetchMoreData(30, 1);
+    if (usernamesData && search?.trim()) {
+      searched.current = search?.trim();
+      const searchedData: User[] = [];
+      usernamesData.forEach((data: User) => {
+        if (data?.name?.toLocaleLowerCase()?.includes(search.toLocaleLowerCase())) {
+          searchedData.push(data);
+        }
+      });
+      setSearchedUsernames(searchedData);
+    } else {
+      searched.current = '';
+      setSearchedUsernames(null);
+    }
   }, 300);
 
   const handleMediaView = (messageId: string) => {
@@ -306,19 +306,19 @@ const GroupProfile = ({
             }}
           />
           <div className={`m_content ${forwardUserScss.forward_user_list}`} id="chat__message__forward__user__list">
-            {((!searchedUsernames || searchedUsernames?.length === 0)) || ((!usernamesData || usernamesData?.length === 0)) ? (
+            {!searched.current && ((!usernamesData || usernamesData?.length === 0)) ? (
               <CircularProgressLoader />
             ) : (
               <InfiniteScroll
                 dataLength={participantsNotAdded?.length || 0}
-                next={fetchMoreData}
-                hasMore={searched.current ? pageData.searchedUserName.hasMoreData : pageData.allUserNames.hasMoreData}
+                next={() => null}
+                hasMore={false}
                 className="overflow_unset"
                 loader={<CircularProgressLoader />}
                 scrollableTarget="chat__message__forward__user__list"
               >
-                {Array.isArray(participantsNotAdded) && participantsNotAdded.length > 0 ? participantsNotAdded.map((userNameData: any) => (userNameData.id !== currentUserInfo.id && userNameData._id !== currentUserInfo.id ? (
-                  <ForwardUser key={userNameData._id || userNameData.id} isGroup={false} selectedForwardMessageUser={selectedParticipants} name={userNameData.username || userNameData.fullName || ''} userId={userNameData._id || userNameData.id} handleUserSelect={handleUserSelect} />
+                {Array.isArray(participantsNotAdded) && participantsNotAdded.length > 0 ? participantsNotAdded.map((userNameData: User) => (userNameData.id !== currentUserInfo.id ? (
+                  <ForwardUser key={userNameData.id} isGroup={false} selectedForwardMessageUser={selectedParticipants} name={userNameData.name || ''} userId={userNameData.id} handleUserSelect={handleUserSelect} />
                 ) : null)) : null}
               </InfiniteScroll>
             )}
@@ -413,12 +413,6 @@ const GroupProfile = ({
     return null;
   };
 
-  useEffect(() => {
-    if (modalType === 'addParticipants' && !usersToChat) {
-      fetchMoreData(30);
-    }
-  }, [usersToChat, modalType]);
-
   useEffect(() => () => {
     if (mediaUnsubscribeEvent.current) {
       mediaUnsubscribeEvent.current();
@@ -450,8 +444,6 @@ const GroupProfile = ({
   useEffect(() => {
     if (usersToChat && !searched?.current) {
       setUsernamesData(usersToChat);
-    } else if (searchedUsernames && searched?.current) {
-      setSearchedUsernames(searchedUsersToChat);
     }
   }, [usersToChat, searchedUsersToChat]);
 

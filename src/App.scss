@@ -884,3 +884,90 @@ button.only_child, a.only_child {
     max-width: 163px;
     margin: 0 auto;
 }
+
+.MuiOutlinedInput-input {
+    padding: 18.5px 14px;
+}
+
+.MuiInputBase-input {
+    font: inherit;
+    color: currentColor;
+    width: 100%;
+    border: 0;
+    height: 1.1876em;
+    margin: 0;
+    display: block;
+    padding: 6px 0 7px;
+    min-width: 0;
+    background: none;
+    box-sizing: content-box;
+    animation-name: mui-auto-fill-cancel;
+    letter-spacing: inherit;
+    animation-duration: 10ms;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.MuiOutlinedInput-input {
+    color: var(--whiteColor) !important;
+    font: normal normal normal 14px/16px "PoppinsRegular" !important;
+}
+
+.MuiOutlinedInput-notchedOutline {
+    border-color: rgba(0, 0, 0, 0.23);
+}
+
+.PrivateNotchedOutline-root-43 {
+    top: -5px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 0 8px;
+    overflow: hidden;
+    position: absolute;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+.MuiFormLabel-root {
+    color: #8A8A8A !important;
+    font-size: 14px;
+    line-height: 14px;
+    letter-spacing: 0.14px;
+}
+
+.char_count {
+    font-size: 12px;
+    font-style: italic;
+    line-height: 1.5;
+    letter-spacing: 0.3px;
+    color: var(--lightGreyColor);
+    text-align: right;
+    display: block;
+    margin-bottom: 30px;
+}
+
+.web_cam {
+    .cam {
+        height: $breakpoint_360;
+        margin-bottom: 20px;
+
+        img,
+        video {
+            @include imgCover;
+            min-height: 100%;
+        }
+    }
+
+    .capture_btn {
+        min-height: auto;
+        margin: auto;
+        @include flexCenter;
+    }
+}
+
+.hide {
+    display: none;
+}

@@ -203,7 +203,6 @@ const MessagesContainer = (props: Props) => {
   };
 
   const handleUserForward = async () => {
-    console.log("currentUserInfo", currentUserInfo, selectedForwardMessageUser)
     if (currentUserInfo?.id && selectedForwardMessageUser && selectedMessagesForForward && Object.values(selectedForwardMessageUser).length > 0 && Object.values(selectedMessagesForForward).length > 0) {
       setForwardingMessage(true);
       const messageModelObject = new MessagesModel();
@@ -496,7 +495,6 @@ const MessagesContainer = (props: Props) => {
     }
   }, [resetRoomMessages]);
 
-  console.log("usersToChat", usersToChat)
   return (
     <>
       <div className={`list_container ${scss.msg_container} ${showContactDetails || showGroupInfo ? scss.view_contact : ''}`}>
