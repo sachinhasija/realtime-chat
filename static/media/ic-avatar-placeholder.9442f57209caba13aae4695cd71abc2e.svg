@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
+    <defs>
+        <linearGradient id="linear-gradient" x1="1" y1=".747" x2="-.013" y2=".139" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#fff" stop-opacity=".231"/>
+            <stop offset=".494" stop-color="#fff" stop-opacity=".8"/>
+            <stop offset="1" stop-color="#fff" stop-opacity=".149"/>
+        </linearGradient>
+        <style>
+            .cls-2{opacity:.5;fill:url(#linear-gradient)}.cls-4{fill:#585858}
+        </style>
+    </defs>
+    <g id="ic-avatar-placeholder" transform="translate(-149 -505)">
+        <g id="ic-avatar-placeholder-2" data-name="ic-avatar-placeholder">
+            <circle id="Ellipse_7" data-name="Ellipse 7" cx="50" cy="50" r="50" transform="translate(149 505)" style="opacity:.5"/>
+            <path id="Exclusion_5" data-name="Exclusion 5" class="cls-2" d="M50 100A50.013 50.013 0 0 1 30.538 3.929 50.013 50.013 0 0 1 69.462 96.07 49.686 49.686 0 0 1 50 100zm.293-98.352H50A48.406 48.406 0 0 0 1.648 50c0 22.359 21.121 48.35 48.352 48.35A48.405 48.405 0 0 0 98.35 50c0-12.5-5.469-24.624-15.4-34.149C73.537 6.823 61.634 1.646 50.293 1.647z" transform="translate(149 505)"/>
+            <g id="Ellipse_542" data-name="Ellipse 542" transform="translate(152.846 508.846)" style="fill:#141414;stroke:#313134">
+                <circle cx="46.154" cy="46.154" r="46.154" style="stroke:none"/>
+                <circle cx="46.154" cy="46.154" r="45.654" style="fill:none"/>
+            </g>
+            <g id="Group_5127" data-name="Group 5127" transform="translate(183.615 537.308)">
+                <path id="Polygon_2" data-name="Polygon 2" class="cls-4" d="m15.385 0 15.384 25.418H0z" transform="rotate(180 15.384 21.404)"/>
+                <circle id="Ellipse_541" data-name="Ellipse 541" class="cls-4" cx="7.358" cy="7.358" r="7.358" transform="translate(8.027)"/>
+            </g>
+        </g>
+        <g id="Group_5655" data-name="Group 5655">
+            <circle id="Ellipse_7-2" data-name="Ellipse 7" cx="50" cy="50" r="50" transform="translate(149 505)"/>
+            <path id="Exclusion_5-2" data-name="Exclusion 5" class="cls-2" d="M50 100A50.013 50.013 0 0 1 30.538 3.929 50.013 50.013 0 0 1 69.462 96.07 49.686 49.686 0 0 1 50 100zm.293-98.352H50A48.406 48.406 0 0 0 1.648 50c0 22.359 21.121 48.35 48.352 48.35A48.405 48.405 0 0 0 98.35 50c0-12.5-5.469-24.624-15.4-34.149C73.537 6.823 61.634 1.646 50.293 1.647z" transform="translate(149 505)"/>
+            <path id="UserProfile_Placeholder" d="M0 23.845h38.461L19.23 56.154zM10 9.231a9.231 9.231 0 1 1 9.231 9.231A9.231 9.231 0 0 1 10 9.231z" transform="translate(179.77 527.307)" style="fill:#fff;opacity:.4"/>
+        </g>
+    </g>
+</svg>
