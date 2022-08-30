@@ -27,7 +27,7 @@ class UserModel extends FirestoreModel {
   }
 
   public async addUser(userId: string, data: User) {
-    setDoc(doc(this.store, `${this.main}/${this.collection}/userInfo`, userId), data);
+    return setDoc(doc(this.store, `${this.main}/${this.collection}/userInfo`, userId), data);
   }
 
   public async updateUser(userId: string, data: UpdateUser) {

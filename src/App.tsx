@@ -14,7 +14,7 @@ function App() {
   const uid = Cookies.get('st-uid');
   const [isLoggedIn, setIsLoggedIn] = useState(!!uid);
 
-  const handleSignIn = (token: string, user: FirebaseUser) => {
+  const handleSignIn = async (token: string, user: FirebaseUser) => {
     const { uid, email, displayName } = user;
     Cookies.set('st-uid', uid);
     const UserModelObject = new UserModel();
@@ -27,9 +27,12 @@ function App() {
       name: displayName,
       showOnline: true,
     };
-    UserModelObject.addUser(uid, userData);
-    location.reload();
-    setIsLoggedIn(true);
+    console.log("uid, email, displayName", uid, email, displayName, userData);
+    UserModelObject.addUser(uid, userData).then((response) => {
+      location.reload()
+      setIsLoggedIn(true);
+    });
+
   }
 
   const handleLogout = () => {
