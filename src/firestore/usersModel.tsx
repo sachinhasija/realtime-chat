@@ -48,11 +48,9 @@ class UserModel extends FirestoreModel {
   }
 
   public addUsersListener(updateUsersData: (data: DocumentData | undefined) => void) {
-    console.log("We lqkhwjelkqjwelkjqwlkej")
     const unsubscribe = onSnapshot(query(collection(this.store, `${this.main}/${this.collection}/userInfo`)), (querySnapshot) => {
       const unreadData: { [id: string]: DocumentData } = {};
       querySnapshot.forEach((d) => {
-        console.log("d", d)
         if (d.data() && d.id) {
           unreadData[d.id] = d.data();
         }

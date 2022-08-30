@@ -16,7 +16,7 @@ const Chat = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
     const usersListener = useRef<Unsubscribe | null>(null);
 
     const handleToastMessage = () => {
-        // to be used to add toast messages
+        // to be used to show toast messages
     }
 
     useEffect(() => {

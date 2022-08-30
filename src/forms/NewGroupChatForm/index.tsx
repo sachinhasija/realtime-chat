@@ -286,12 +286,16 @@ const NewGroupChatForm: React.FC<Props> = (props: Props) => {
                 if (data?.[0]) {
                   setCurrentImage(data[0]);
                 }
+                const textValue = formProps.getValues('groupName')
+                if (textValue) {
+                  formProps.setValue('groupName', textValue);
+                  formProps.trigger();
+                }
               }}
               handleButtonClick={() => {
                 if (buttonRef && buttonRef.current) {
                   buttonRef.current.click();
                   setOpenFile(true);
-                  localStorage.setItem('site-terms', '1');
                   setShowModalType('');
                 }
               }}

@@ -54,7 +54,19 @@ const NewGroupChat = ({
   const [type, setType] = useState('members');
 
   const handleUserSearch = debounce((search: string) => {
-    searched.current = search;
+    if (usernamesData && search?.trim()) {
+      searched.current = search?.trim();
+      const searchedData: User[] = [];
+      usernamesData.forEach((data: User) => {
+        if (data?.name?.toLocaleLowerCase()?.includes(search.toLocaleLowerCase())) {
+          searchedData.push(data);
+        }
+      });
+      setSearchedUsernames(searchedData);
+    } else {
+      searched.current = '';
+      setSearchedUsernames(null);
+    }
   }, 300);
 
   const handleGroupFormSubmit = (data: { groupName: string, channelIconImage: string }) => {
