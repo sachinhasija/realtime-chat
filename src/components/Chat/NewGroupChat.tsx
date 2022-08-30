@@ -49,14 +49,6 @@ const NewGroupChat = ({
   const [searchedUsernames, setSearchedUsernames] = useState<null | User[]>(null);
   const [selectedUsersGroup, setSelectedUsersGroup] = useState<{ [userId: string]: { userId: string, name: string } } | null>(null);
 
-  const usersToChat: User[] = useMemo(() => {
-    return usersInDb ? Object.values(usersInDb) : [];
-  }, [usersInDb]);
-
-  const searchedUsersToChat: User[] = useMemo(() => {
-    return usersInDb ? Object.values(usersInDb) : [];
-  }, [usersInDb]);
-
   const mainData = searched?.current ? searchedUsernames : usernamesData;
 
   const [type, setType] = useState('members');
@@ -104,10 +96,10 @@ const NewGroupChat = ({
   };
 
   useEffect(() => {
-    if (usersToChat && !searched?.current) {
-      setUsernamesData(usersToChat);
+    if (usersInDb) {
+      setUsernamesData(Object.values(usersInDb));
     }
-  }, [usersToChat, searchedUsersToChat]);
+  }, [usersInDb]);
 
   return (
     <div className={`${scss.new_chat}`}>

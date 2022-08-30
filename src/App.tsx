@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import React, { useState } from 'react';
 import Chat from 'components/Chat';
 import Cookies from 'js-cookie';
@@ -27,6 +28,7 @@ function App() {
       showOnline: true,
     };
     UserModelObject.addUser(uid, userData);
+    location.reload();
     setIsLoggedIn(true);
   }
 
@@ -39,7 +41,7 @@ function App() {
     <div className="app">
       <div className='content'>
         <Header isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
-        {isLoggedIn ? <Chat /> : (
+        {isLoggedIn ? <Chat isLoggedIn={isLoggedIn} /> : (
           <div
             className="custom_container"
           >

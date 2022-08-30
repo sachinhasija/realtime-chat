@@ -4,11 +4,11 @@ import { DocumentData, Unsubscribe } from 'firebase/firestore'
 import UserModel from 'firestore/usersModel'
 import { User } from 'interfaces/firestore'
 import Cookies from 'js-cookie'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import ChatContainer from './ChatContainer'
 
-const Chat = () => {
-    const uid = Cookies.get('st-uid');
+const Chat = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
+    const uid = useMemo(() => isLoggedIn ? Cookies.get('st-uid') : '', [isLoggedIn]);
     const [usersInDb, setUserInDb] = useState<{ [userId: string]: User } | null>(null);
     const [currentUserInfo, setCurrentUserInfo] = useState<User | null>(null);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -36,7 +36,7 @@ const Chat = () => {
                 unsubscribeUsersListener();
             }
             const UserModelObject = new UserModel();
-            unsubscribeUsersListener = UserModelObject.addsUserListener(updateUsersData);
+            unsubscribeUsersListener = UserModelObject.addUsersListener(updateUsersData);
             usersListener.current = unsubscribeUsersListener;
         }
 

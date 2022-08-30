@@ -34,14 +34,6 @@ const NewChat = ({
   const [usernamesData, setUsernamesData] = useState<null | User[]>(null);
   const [searchedUsernames, setSearchedUsernames] = useState<null | User[]>(null);
 
-  const usersToChat: User[] = useMemo(() => {
-    return usersInDb ? Object.values(usersInDb) : [];
-  }, [usersInDb]);
-
-  const searchedUsersToChat: User[] = useMemo(() => {
-    return usersInDb ? Object.values(usersInDb) : [];
-  }, [usersInDb]);
-
   const mainData = searched?.current ? searchedUsernames : usernamesData;
 
   const handleUserSearch = debounce((search: string) => {
@@ -62,10 +54,10 @@ const NewChat = ({
 
 
   useEffect(() => {
-    if (usersToChat && !searched?.current) {
-      setUsernamesData(usersToChat);
+    if (usersInDb) {
+      setUsernamesData(Object.values(usersInDb));
     }
-  }, [usersToChat, searchedUsersToChat]);
+  }, [usersInDb]);
 
   return (
     <div className={`${scss.new_chat}`}>
