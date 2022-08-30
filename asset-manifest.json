@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/realtime-chat/static/css/main.01cbebaa.css",
-    "main.js": "/realtime-chat/static/js/main.b9616d90.js",
+    "main.css": "/realtime-chat/static/css/main.8fad39f6.css",
+    "main.js": "/realtime-chat/static/js/main.1d5be6be.js",
     "static/media/revicons.eot": "/realtime-chat/static/media/revicons.a77de540a38981833f9e.eot",
     "static/media/revicons.ttf": "/realtime-chat/static/media/revicons.57fd05d4ae650374c8de.ttf",
     "static/media/revicons.woff": "/realtime-chat/static/media/revicons.e8746a624ed098489406.woff",
@@ -38,11 +38,11 @@
     "static/media/chat-cross.svg": "/realtime-chat/static/media/chat-cross.fb09f83e5ee74780a1b99ded54ff9e57.svg",
     "static/media/icon-feather-play.svg": "/realtime-chat/static/media/icon-feather-play.ca1aaa9197c16648e877d02a9d62f348.svg",
     "static/media/msg-send.svg": "/realtime-chat/static/media/msg-send.a8a6574230822eaecdd5255442546f6a.svg",
-    "main.01cbebaa.css.map": "/realtime-chat/static/css/main.01cbebaa.css.map",
-    "main.b9616d90.js.map": "/realtime-chat/static/js/main.b9616d90.js.map"
+    "main.8fad39f6.css.map": "/realtime-chat/static/css/main.8fad39f6.css.map",
+    "main.1d5be6be.js.map": "/realtime-chat/static/js/main.1d5be6be.js.map"
   },
   "entrypoints": [
-    "static/css/main.01cbebaa.css",
-    "static/js/main.b9616d90.js"
+    "static/css/main.8fad39f6.css",
+    "static/js/main.1d5be6be.js"
   ]
 }
